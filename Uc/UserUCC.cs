@@ -9,16 +9,16 @@ namespace Back_Market_Vinci.Uc
 {
     public class UserUCC : IUserUCC
     {
-        private IUserDAO userDAO;
+        private IUserDAO _userDAO;
         public UserUCC(IUserDAO userDAO) {
-            this.userDAO = userDAO;
+            this._userDAO = userDAO;
         }
-        public List<IUserDTO> getUser()
+        public List<IUserDTO> GetUsers()
         {
-            return userDAO.GetUser();
+            return _userDAO.GetUsers();
         }
 
-        public User register(IUserDTO userDto)
+        public User Register(IUserDTO userDto)
         {
             User user = (User)userDto;
 

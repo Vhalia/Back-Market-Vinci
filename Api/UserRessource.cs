@@ -17,7 +17,7 @@ namespace Back_Market_Vinci.Api
         }
 
         [HttpPost]
-        [Route("/user")]
+        [Route("/users")]
         public void PostUser([FromBody] User user)
         {
             Console.WriteLine(user.Name);
@@ -26,7 +26,7 @@ namespace Back_Market_Vinci.Api
         [HttpGet]
         [Route("/users")]
         public List<IUserDTO> GetUsers() {
-            return userUCC.getUser();
+            return userUCC.GetUsers();
         }
 
     }
