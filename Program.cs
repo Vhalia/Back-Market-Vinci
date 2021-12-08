@@ -1,7 +1,10 @@
+using Back_Market_Vinci.DataServices;
+using Back_Market_Vinci.Domaine;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +14,10 @@ namespace Back_Market_Vinci
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -21,6 +25,7 @@ namespace Back_Market_Vinci
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+
                 });
     }
 }
