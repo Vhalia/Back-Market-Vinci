@@ -26,7 +26,7 @@ namespace Back_Market_Vinci.Config
 
         public override Boolean? Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
-            Console.WriteLine("boolean converter");
+            
             var type = context.Reader.GetCurrentBsonType();
             switch (type)
             {

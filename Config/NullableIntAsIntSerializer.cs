@@ -24,7 +24,7 @@ namespace Back_Market_Vinci.Config
 
         public override int? Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
-            Console.WriteLine("int converter");
+            
             var type = context.Reader.GetCurrentBsonType();
             switch (type) {
 
