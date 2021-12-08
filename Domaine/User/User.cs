@@ -20,9 +20,14 @@ namespace Back_Market_Vinci.Domaine
         
         public string Password { get; set; }
 
-        public User(String name, String surname) {
+        public User(string id, string name, string surname, string mail, string campus, string password) {
+            this.Id = id;
             this.Name = name;
             this.Surname = surname;
+            this.Mail = mail;
+            this.Campus = campus;
+            this.Password = password;
+
         }
     }
 }

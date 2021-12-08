@@ -11,5 +11,7 @@ namespace Back_Market_Vinci.Uc
         List<IUserDTO> GetUsers();
 
         User Register(IUserDTO user);
+
+        IUserDTO GetUserByMail(string mail);
     }
 }

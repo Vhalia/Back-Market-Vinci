@@ -18,6 +18,10 @@ namespace Back_Market_Vinci.Uc
             return _userDAO.GetUsers();
         }
 
+        public IUserDTO GetUserByMail(string mail) {
+            return _userDAO.GetUserByMail(mail);
+        }
+
         public User Register(IUserDTO userDto)
         {
             User user = (User)userDto;

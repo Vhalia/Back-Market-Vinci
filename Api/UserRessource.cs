@@ -29,5 +29,11 @@ namespace Back_Market_Vinci.Api
             return userUCC.GetUsers();
         }
 
+        [HttpGet]
+        [Route("/users/{mail}")]
+        public IUserDTO GetUserByMail(string mail) {
+            return userUCC.GetUserByMail(mail);
+        }
+
     }
 }

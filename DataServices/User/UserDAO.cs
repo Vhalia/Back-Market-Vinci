@@ -26,8 +26,17 @@ namespace Back_Market_Vinci.DataServices
             var database = dalServices.GetDatabase();
             var tableUsers =  database.GetCollection<User>("Users");
             List<IUserDTO> allUsers = tableUsers.AsQueryable().Select(u =>
-                new User(u.Name, u.Surname)).ToList<IUserDTO>();
+                new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password)).ToList<IUserDTO>();
             return allUsers;
+        }
+
+        public IUserDTO GetUserByMail(string mail) {
+            var database = dalServices.GetDatabase();
+            var tableUsers = database.GetCollection<User>("Users");
+            IUserDTO user = tableUsers.AsQueryable().Single(u =>
+                u.Mail.Equals(mail));
+            return user;
+
         }
 
 
