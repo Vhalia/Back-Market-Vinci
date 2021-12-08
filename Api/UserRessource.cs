@@ -10,24 +10,45 @@ namespace Back_Market_Vinci.Api
     [Route("[controller]")]
     public class UserRessource : ControllerBase
     {
-        private IUserUCC userUCC;
+        private IUserUCC _userUCC;
 
         public UserRessource(IUserUCC userUCC) {
-            this.userUCC = userUCC;
+            this._userUCC = userUCC;
         }
 
 
         [HttpGet]
         [Route("/users")]
         public List<IUserDTO> GetUsers() {
-            return userUCC.GetUsers();
+            return _userUCC.GetUsers();
         }
 
         [HttpGet]
         [Route("/users/{mail}")]
         public IUserDTO GetUserByMail(string mail) {
-            return userUCC.GetUserByMail(mail);
+            return _userUCC.GetUserByMail(mail);
         }
 
+        [HttpPost]
+        [Route("/users")]
+        public IUserDTO Register(User user) {
+
+            return _userUCC.Register(user);
+        }
+
+        [HttpDelete]
+        [Route("/users/{id}")]
+
+        public void DeleteUser(string id) {
+            _userUCC.DeleteUser(id);
+        
+        }
+
+        [HttpPatch]
+        [Route("/users/{id}")]
+        public IUserDTO UpdateUser(User user, string id) {
+
+            return _userUCC.UpdateUser(user, id);
+        }
     }
 }
