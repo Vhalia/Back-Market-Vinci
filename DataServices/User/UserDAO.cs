@@ -16,22 +16,16 @@ namespace Back_Market_Vinci.DataServices
             this._dalServices = dalServices;
             this._usersTable = _dalServices.UsersCollection;
         }
-         public void CreateUser(IUserDTO user)
-        {
-            _usersTable.InsertOne((User)user);
-        }
 
         public List<IUserDTO> GetUsers()
         {
             List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u =>
-                new User(u.Name, u.Surname)).ToList<IUserDTO>();
+                new User(u.Id,u.Name, u.Surname,u.Mail, u.Campus, u.Password)).ToList<IUserDTO>();
             return allUsers;
         }
 
         public IUserDTO GetUserByMail(string mail) {
-            var database = dalServices.GetDatabase();
-            var tableUsers = database.GetCollection<User>("Users");
-            IUserDTO user = tableUsers.AsQueryable().Single(u =>
+            IUserDTO user = _usersTable.AsQueryable().Single(u =>
                 u.Mail.Equals(mail));
             return user;
 

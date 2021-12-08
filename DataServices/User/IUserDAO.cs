@@ -8,8 +8,6 @@ namespace Back_Market_Vinci.DataServices
     {
         public List<IUserDTO> GetUsers();
 
-        public void CreateUser(IUserDTO user);
-
         public IUserDTO GetUserByMail(string mail);
 
     }

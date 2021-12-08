@@ -16,12 +16,6 @@ namespace Back_Market_Vinci.Api
             this.userUCC = userUCC;
         }
 
-        [HttpPost]
-        [Route("/users")]
-        public void PostUser([FromBody] User user)
-        {
-            Console.WriteLine(user.Name);
-        }
 
         [HttpGet]
         [Route("/users")]
