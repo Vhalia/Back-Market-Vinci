@@ -17,21 +17,10 @@ namespace Back_Market_Vinci
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // requires using Microsoft.Extensions.Options
-            services.Configure<DalServices>(Configuration.GetSection(nameof(DalServices)));
-
-            services.AddSingleton<IDalServices>(sp => sp.GetRequiredService<IOptions<DalServices>>().Value);
-
             services.AddControllers();
             services.AddSingleton<IDalServices, DalServices>();
             services.AddSingleton<IUserDAO, UserDAO>();

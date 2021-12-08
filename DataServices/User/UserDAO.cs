@@ -9,24 +9,22 @@ namespace Back_Market_Vinci.DataServices
 {
     public class UserDAO : IUserDAO
     {
-        private IDalServices dalServices;
+        private IDalServices _dalServices;
+        private IMongoCollection<User> _usersTable;
+
         public UserDAO(IDalServices dalServices) {
-            this.dalServices = dalServices;
+            this._dalServices = dalServices;
+            this._usersTable = _dalServices.UsersCollection;
         }
          public void CreateUser(IUserDTO user)
         {
-            
-            var database = dalServices.GetDatabase();
-            var table = database.GetCollection<User>("Users");
-            table.InsertOne((User)user);
+            _usersTable.InsertOne((User)user);
         }
 
         public List<IUserDTO> GetUsers()
         {
-            var database = dalServices.GetDatabase();
-            var tableUsers =  database.GetCollection<User>("Users");
-            List<IUserDTO> allUsers = tableUsers.AsQueryable().Select(u =>
-                new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password)).ToList<IUserDTO>();
+            List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u =>
+                new User(u.Name, u.Surname)).ToList<IUserDTO>();
             return allUsers;
         }
 
