@@ -6,7 +6,7 @@ namespace Back_Market_Vinci.DataServices
 {
     public interface IUserDAO
     {
-        public List<IUserDTO> GetUser();
+        public List<IUserDTO> GetUsers();
 
         public void CreateUser(IUserDTO user);
 

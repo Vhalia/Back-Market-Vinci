@@ -21,7 +21,7 @@ namespace Back_Market_Vinci.DataServices
             table.InsertOne((User)user);
         }
 
-        public List<IUserDTO> GetUser()
+        public List<IUserDTO> GetUsers()
         {
             var database = dalServices.GetDatabase();
             var tableUsers =  database.GetCollection<User>("Users");

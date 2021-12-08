@@ -8,8 +8,8 @@ namespace Back_Market_Vinci.Uc
 {
     public interface IUserUCC
     {
-        List<IUserDTO> getUser();
+        List<IUserDTO> GetUsers();
 
-        User register(IUserDTO user);
+        User Register(IUserDTO user);
     }
 }
