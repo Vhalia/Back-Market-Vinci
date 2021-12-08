@@ -1,4 +1,7 @@
-﻿using MongoDB.Driver;
+﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Product;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +11,35 @@ namespace Back_Market_Vinci.DataServices
 {
     public class DalServices : IDalServices
     {
-        public string ConnectionString { get; set; } = null!;
+        public IConfiguration Configuration { get; }
 
-        public string DatabaseName { get; set; } = null!;
+        private IMongoDatabase Database { 
+            get {
+                var client = new MongoClient(Configuration["DatabaseProperties:ConnectionString"]);
+                return client.GetDatabase(Configuration["DatabaseProperties:DatabaseName"]);
+            }
+        }
 
-        public string UsersCollectionName { get; set; } = null!;
-        public IMongoDatabase GetDatabase()
+        public DalServices(IConfiguration conf)
         {
-            var settings = "mongodb+srv://root:azerty@pfe-db.91mid.mongodb.net/PFE-DB?retryWrites=true&w=majority";
-            var client = new MongoClient(settings);
-            return client.GetDatabase("PFE-DB");
+            Configuration = conf;
+        }
+
+        public IMongoCollection<User> UsersCollection
+        {
+            get
+            {
+                return Database.GetCollection<User>(Configuration["DatabaseProperties:UsersCollectionName"]);
+            }
+        }
+
+        public IMongoCollection<Product> ProductsCollection
+        {
+            get
+            {
+                return Database.GetCollection<Product>(Configuration["DatabasePropertiesProductsCollectionName"]);
+
+            }
         }
     }
 }

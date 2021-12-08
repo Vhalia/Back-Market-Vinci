@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Product;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +11,7 @@ namespace Back_Market_Vinci.DataServices
     public interface IDalServices
     {
 
-        IMongoDatabase GetDatabase();
-
-        public string ConnectionString { get; set; }
-
-        public string DatabaseName { get; set; }
-
-        public string UsersCollectionName { get; set; }
+        IMongoCollection<User> UsersCollection { get; }
+        IMongoCollection<Product> ProductsCollection { get; }
     }
 }
