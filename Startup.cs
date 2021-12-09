@@ -39,11 +39,12 @@ namespace Back_Market_Vinci
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseRouting();
+            
             app.UseCors(
                 options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
             );
-
-            app.UseRouting();
 
             app.UseAuthorization();
 

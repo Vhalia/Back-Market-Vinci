@@ -10,8 +10,14 @@ namespace Back_Market_Vinci.Uc
     {
         List<IUserDTO> GetUsers();
 
-        User Register(IUserDTO user);
+        IUserDTO Register(IUserDTO user);
 
         IUserDTO GetUserByMail(string mail);
+
+        void DeleteUser(string id);
+
+        IUserDTO UpdateUser(IUserDTO user, string id);
+
+        IUserDTO Login(IUserDTO user);
     }
 }

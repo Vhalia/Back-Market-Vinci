@@ -22,11 +22,22 @@ namespace Back_Market_Vinci.Uc
             return _userDAO.GetUserByMail(mail);
         }
 
-        public User Register(IUserDTO userDto)
+        public IUserDTO Register(IUserDTO user)
         {
-            User user = (User)userDto;
 
-            return user;
+            return _userDAO.Register(user);
+        }
+
+        public void DeleteUser(string id) {
+            _userDAO.DeleteUser(id);
+        }
+
+        public IUserDTO UpdateUser(IUserDTO user, string id) {
+           return  _userDAO.UpdateUser(user, id);
+        }
+
+        public IUserDTO Login(IUserDTO user) {
+            return _userDAO.Login(user);
         }
     }
 }
