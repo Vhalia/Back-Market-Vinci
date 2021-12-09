@@ -24,7 +24,10 @@ namespace Back_Market_Vinci.Domaine.Product
         public string Adress { get ; set ; }
         public SentTypes SentType { get ; set ; }
 
-        public Product(string id, string name, States state, string description, Boolean? isValidated, string reasonNotValidated, User seller, string sellerId, string adress, SentTypes sentType)
+        [BsonSerializer(typeof(NullableIntAsIntSerializer))]
+        public int? Price { get; set; }
+
+        public Product(string id, string name, States state, string description, Boolean? isValidated, string reasonNotValidated, User seller, string sellerId, string adress, SentTypes sentType, int? price)
         {
             Id = id;
             Name = name;
@@ -36,6 +39,7 @@ namespace Back_Market_Vinci.Domaine.Product
             SellerId = sellerId;
             Adress = adress;
             SentType = sentType;
+            Price = price;
         }
     }
 }

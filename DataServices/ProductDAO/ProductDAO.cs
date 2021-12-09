@@ -26,7 +26,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         {
             return _productsTable.AsQueryable().Select(p =>
                 new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.Seller,
-                p.SellerId, p.Adress, p.SentType)).ToList<IProductDTO>();
+                p.SellerId, p.Adress, p.SentType, p.Price.Value)).ToList<IProductDTO>();
         }
 
         public IProductDTO GetProductById(string id)

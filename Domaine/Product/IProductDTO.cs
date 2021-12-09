@@ -27,7 +27,8 @@ namespace Back_Market_Vinci.Domaine.Product
 
         public SentTypes SentType { get; set; }
 
-
+        [BsonSerializer(typeof(NullableIntAsIntSerializer))]
+        public int? Price { get; set; }
 
     }
 }
