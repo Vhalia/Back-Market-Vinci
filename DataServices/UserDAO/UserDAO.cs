@@ -47,14 +47,13 @@ namespace Back_Market_Vinci.DataServices
 
         public IUserDTO GetUserById(string id)
         {
-            IUserDTO user = _usersTable.AsQueryable().Single(u => u.Id.Equals(id));
+            IUserDTO user = _usersTable.AsQueryable().FirstOrDefault(u => u.Id.Equals(id));
             return user;
         }
 
         public IUserDTO UpdateUser(IUserDTO user, string id)
         {
             IUserDTO userFromDB = this.GetUserById(id);
-
 
             IUserDTO modifiedUser = CheckNullFields<IUserDTO>.CheckNull(user, userFromDB);
 

@@ -1,25 +1,30 @@
-﻿using Back_Market_Vinci.Domaine.Other;
+﻿using Back_Market_Vinci.Config;
+using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace Back_Market_Vinci.Domaine.Product
 {
-    public class Product : IProduct, IProductDTO
+    public class Product : IProduct, IProductDTO, IProductDb
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get ; set ; }
         public States State { get ; set ; }
-        public string Description { get ; set ; } 
-        public bool? IsValidated { get ; set ; }
+        public string Description { get ; set ; }
+
+        [BsonSerializer(typeof(NullableBooleanAsBooleanSerializer))]
+        public Boolean? IsValidated { get ; set ; }
         public string ReasonNotValidated { get ; set ; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string SellerId { get; set; }
         public User Seller { get ; set ; }
         public string Adress { get ; set ; }
-        public SentTypes? SentType { get ; set ; }
+        public SentTypes SentType { get ; set ; }
 
-        public Product(string id, string name, States state, string description, bool isValidated, string reasonNotValidated, User seller, string adress, SentTypes sentType)
+        public Product(string id, string name, States state, string description, Boolean? isValidated, string reasonNotValidated, User seller, string sellerId, string adress, SentTypes sentType)
         {
             Id = id;
             Name = name;
@@ -28,6 +33,7 @@ namespace Back_Market_Vinci.Domaine.Product
             IsValidated = isValidated;
             ReasonNotValidated = reasonNotValidated;
             Seller = seller;
+            SellerId = sellerId;
             Adress = adress;
             SentType = sentType;
         }

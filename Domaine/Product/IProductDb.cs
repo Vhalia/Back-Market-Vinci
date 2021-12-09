@@ -1,11 +1,14 @@
-﻿using System;
-using Back_Market_Vinci.Config;
+﻿using Back_Market_Vinci.Config;
 using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Back_Market_Vinci.Domaine.Product
 {
-    public interface IProductDTO
+    public interface IProductDb
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -21,13 +24,8 @@ namespace Back_Market_Vinci.Domaine.Product
 
         public string SellerId { get; set; }
 
-        public User Seller { get; set; }
-
         public string Adress { get; set; }
 
         public SentTypes SentType { get; set; }
-
-
-
     }
 }

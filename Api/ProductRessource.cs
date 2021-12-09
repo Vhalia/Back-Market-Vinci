@@ -27,8 +27,8 @@ namespace Back_Market_Vinci.Api
         }
 
         [HttpPatch]
-        [Route("/products/{id:length(24)}")]
-        public IProductDTO UpdateProductById(string id, IProductDTO productToBeUpdated)
+        [Route("/products/{id}")]
+        public IProductDTO UpdateProductById(string id, Product productToBeUpdated)
         {
             return _productUCC.UpdateProductbyId(id, productToBeUpdated);
         }

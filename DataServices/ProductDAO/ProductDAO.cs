@@ -1,4 +1,6 @@
-﻿using Back_Market_Vinci.Domaine.Product;
+﻿using Back_Market_Vinci.Config;
+using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Product;
 using Back_Market_Vinci.Uc;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -23,22 +25,20 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         public List<IProductDTO> GetProducts()
         {
             return _productsTable.AsQueryable().Select(p =>
-                new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value, p.ReasonNotValidated,
-                p.Seller, p.Adress, p.SentType.Value)).ToList<IProductDTO>();
+                new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.Seller,
+                p.SellerId, p.Adress, p.SentType)).ToList<IProductDTO>();
         }
 
         public IProductDTO GetProductById(string id)
         {
-            return _productsTable.AsQueryable().Single(u => u.Id == id);
+            return _productsTable.AsQueryable().Single(u => u.Id.Equals(id));
         }
 
-        public IProductDTO UpdateProductById(string id, IProductDTO productToBeUpdated)
+        public IProductDTO UpdateProductById(string id, IProductDTO productIn)
         {
-            //TODO checkNull
+            _productsTable.ReplaceOne<Product>(p => p.Id.Equals(id), (Product)productIn);
 
-            var result = _productsTable.ReplaceOne<Product>(p => p.Id.Equals(id), (Product) productToBeUpdated);
-
-            return GetProductById(productToBeUpdated.Id);
+            return GetProductById(productIn.Id);
         }
     }
 }
