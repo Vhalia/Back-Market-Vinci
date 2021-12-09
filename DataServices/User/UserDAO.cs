@@ -3,8 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+using Back_Market_Vinci.Config;
 
 namespace Back_Market_Vinci.DataServices
 {
@@ -42,19 +41,6 @@ namespace Back_Market_Vinci.DataServices
             _usersTable.DeleteOne<User>(u => u.Id.Equals(id));
         }
 
-        public IUserDTO CheckNull(IUserDTO userfromFront, IUserDTO userFromDB) {
-            foreach (PropertyInfo pi in userfromFront.GetType().GetProperties())
-            {
-                var value = pi.GetValue(userfromFront);
-                if (value == null)
-                {
-                    pi.SetValue(userfromFront, pi.GetValue(userFromDB));
-                }
-                
-            }
-            return userfromFront;
-        }
-
         public IUserDTO GetUserById(string id) {
             IUserDTO user = _usersTable.AsQueryable().Single(u => u.Id.Equals(id));
             return user;
@@ -64,11 +50,25 @@ namespace Back_Market_Vinci.DataServices
             IUserDTO userFromDB = this.GetUserById(id);
 
 
-            IUserDTO modifiedUser =this.CheckNull(user, userFromDB);
+            IUserDTO modifiedUser =CheckNullFields<IUserDTO>.CheckNull(user, userFromDB);
 
             _usersTable.ReplaceOne<User>(u => u.Id.Equals(user.Id), (User)modifiedUser);
 
             return modifiedUser;
+            
+        }
+
+        public IUserDTO Login(IUserDTO user) {
+            IUserDTO userFromDB = this.GetUserByMail(user.Mail);
+
+            if (userFromDB.Password.Equals(user.Password))
+            {
+                return userFromDB;
+            }
+            else {
+                return null;
+            }
+            
             
         }
 

@@ -16,5 +16,7 @@ namespace Back_Market_Vinci.DataServices
 
         public IUserDTO UpdateUser(IUserDTO user, string id);
 
+        public IUserDTO Login(IUserDTO user);
+
     }
 }

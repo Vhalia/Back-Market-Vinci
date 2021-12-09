@@ -17,5 +17,7 @@ namespace Back_Market_Vinci.Uc
         void DeleteUser(string id);
 
         IUserDTO UpdateUser(IUserDTO user, string id);
+
+        IUserDTO Login(IUserDTO user);
     }
 }
