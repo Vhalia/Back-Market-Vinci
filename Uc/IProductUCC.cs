@@ -7,5 +7,8 @@ namespace Back_Market_Vinci.Api
     {
         List<IProductDTO> GetProducts();
         IProductDTO UpdateProductbyId(string id, IProductDTO productToUpdate);
+        IProductDTO GetProductById(string id);
+        void DeleteProductById(string id);
+        IProductDTO CreateProduct(Product productToCreate);
     }
 }

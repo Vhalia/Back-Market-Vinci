@@ -40,5 +40,16 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
 
             return GetProductById(productIn.Id);
         }
+
+        public void DeleteProductById(string id)
+        {
+            _productsTable.DeleteOne<Product>(p => p.Id.Equals(id));
+        }
+
+        public IProductDTO CreateProduct(Product productToCreate)
+        {
+            _productsTable.InsertOne(productToCreate);
+            return productToCreate;
+        }
     }
 }

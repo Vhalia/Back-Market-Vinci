@@ -23,6 +23,25 @@ namespace Back_Market_Vinci.Uc
 
         }
 
+        public IProductDTO CreateProduct(Product productToCreate)
+        {
+            IUserDTO sellerDb = _userDAO.GetUserById(productToCreate.SellerId);
+            productToCreate.Seller = (User)sellerDb;
+            return _productDAO.CreateProduct(productToCreate);
+        }
+
+        public void DeleteProductById(string id)
+        {
+            _productDAO.DeleteProductById(id);
+        }
+
+        public IProductDTO GetProductById(string id)
+        {
+            IProductDTO productFromDb = _productDAO.GetProductById(id);
+            productFromDb.Seller = (User)_userDAO.GetUserById(productFromDb.SellerId);
+            return productFromDb;
+        }
+
         public List<IProductDTO> GetProducts()
         {
             List<IProductDTO> productsDTO = _productDAO.GetProducts();
