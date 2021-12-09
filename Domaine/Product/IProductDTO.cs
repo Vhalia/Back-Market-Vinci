@@ -12,7 +12,7 @@ namespace Back_Market_Vinci.Domaine.Product
 
         public string Description { get; set; }
 
-        public Boolean IsValidated { get; set; }
+        public bool? IsValidated { get; set; }
 
         public string ReasonNotValidated { get; set; }
 
@@ -20,7 +20,7 @@ namespace Back_Market_Vinci.Domaine.Product
 
         public string Adress { get; set; }
 
-        public SentTypes SentType { get; set; }
+        public SentTypes? SentType { get; set; }
 
 
 

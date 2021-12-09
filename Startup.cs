@@ -1,4 +1,6 @@
+using Back_Market_Vinci.Api;
 using Back_Market_Vinci.DataServices;
+using Back_Market_Vinci.DataServices.ProductDAO;
 using Back_Market_Vinci.Uc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +28,8 @@ namespace Back_Market_Vinci
             services.AddSingleton<IDalServices, DalServices>();
             services.AddSingleton<IUserDAO, UserDAO>();
             services.AddSingleton<IUserUCC, UserUCC>();
+            services.AddSingleton<IProductDAO, ProductDAO>();
+            services.AddSingleton<IProductUCC, ProductUCC>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
