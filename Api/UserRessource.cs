@@ -50,5 +50,11 @@ namespace Back_Market_Vinci.Api
 
             return _userUCC.UpdateUser(user, id);
         }
+
+        [HttpPost]
+        [Route("/login")]
+        public IUserDTO Login(User user) {
+            return _userUCC.Login(user);
+        }
     }
 }

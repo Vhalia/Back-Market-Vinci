@@ -35,5 +35,9 @@ namespace Back_Market_Vinci.Uc
         public IUserDTO UpdateUser(IUserDTO user, string id) {
            return  _userDAO.UpdateUser(user, id);
         }
+
+        public IUserDTO Login(IUserDTO user) {
+            return _userDAO.Login(user);
+        }
     }
 }

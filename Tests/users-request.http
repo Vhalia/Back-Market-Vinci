@@ -29,3 +29,14 @@ Content-Type: application/json
     "Dislike": 5,
     "IsAdmin" : true
 }
+
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "mail" : "lemaildefou@vinci.uk",
+    "password" : "fiddesticks"
+
+}
