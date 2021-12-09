@@ -37,7 +37,7 @@ namespace Back_Market_Vinci.DataServices
         {
             get
             {
-                return Database.GetCollection<Product>(Configuration["DatabasePropertiesProductsCollectionName"]);
+                return Database.GetCollection<Product>(Configuration["DatabaseProperties:ProductsCollectionName"]);
 
             }
         }

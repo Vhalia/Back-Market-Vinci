@@ -12,7 +12,8 @@ namespace Back_Market_Vinci.DataServices
         private IDalServices _dalServices;
         private IMongoCollection<User> _usersTable;
 
-        public UserDAO(IDalServices dalServices) {
+        public UserDAO(IDalServices dalServices)
+        {
             this._dalServices = dalServices;
             this._usersTable = _dalServices.UsersCollection;
         }
@@ -20,56 +21,62 @@ namespace Back_Market_Vinci.DataServices
         public List<IUserDTO> GetUsers()
         {
             List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u =>
-                new User(u.Id,u.Name, u.Surname,u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.Dislike.Value, u.Like.Value, u.IsAdmin.Value)).ToList<IUserDTO>();
+                new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.Dislike.Value, u.Like.Value, u.IsAdmin.Value)).ToList<IUserDTO>();
             return allUsers;
         }
 
-        public IUserDTO GetUserByMail(string mail) {
+        public IUserDTO GetUserByMail(string mail)
+        {
             IUserDTO user = _usersTable.AsQueryable().Single(u =>
                 u.Mail.Equals(mail));
             return user;
 
         }
 
-        public IUserDTO Register(IUserDTO user) {
+        public IUserDTO Register(IUserDTO user)
+        {
 
-            _usersTable.InsertOne((User) user);
-            return  user;
-        }
-
-        public void DeleteUser(string id) {
-            _usersTable.DeleteOne<User>(u => u.Id.Equals(id));
-        }
-
-        public IUserDTO GetUserById(string id) {
-            IUserDTO user = _usersTable.AsQueryable().Single(u => u.Id.Equals(id));
+            _usersTable.InsertOne((User)user);
             return user;
         }
 
-        public IUserDTO UpdateUser(IUserDTO user, string id) {
+        public void DeleteUser(string id)
+        {
+            _usersTable.DeleteOne<User>(u => u.Id.Equals(id));
+        }
+
+        public IUserDTO GetUserById(string id)
+        {
+            IUserDTO user = _usersTable.AsQueryable().FirstOrDefault(u => u.Id.Equals(id));
+            return user;
+        }
+
+        public IUserDTO UpdateUser(IUserDTO user, string id)
+        {
             IUserDTO userFromDB = this.GetUserById(id);
 
-
-            IUserDTO modifiedUser =CheckNullFields<IUserDTO>.CheckNull(user, userFromDB);
+            IUserDTO modifiedUser = CheckNullFields<IUserDTO>.CheckNull(user, userFromDB);
 
             _usersTable.ReplaceOne<User>(u => u.Id.Equals(user.Id), (User)modifiedUser);
 
             return modifiedUser;
-            
+
         }
 
-        public IUserDTO Login(IUserDTO user) {
+        public IUserDTO Login(IUserDTO user)
+        {
             IUserDTO userFromDB = this.GetUserByMail(user.Mail);
 
             if (userFromDB.Password.Equals(user.Password))
             {
                 return userFromDB;
             }
-            else {
+            else
+            {
                 return null;
             }
-            
-            
+
+
         }
 
     }
