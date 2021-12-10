@@ -26,8 +26,6 @@ namespace Back_Market_Vinci.DataServices
         public void UpdateRatings(IRatingsDTO ratings) {
 
             _ratingsTable.ReplaceOne<Ratings>(r => r.Id.Equals(ratings.Id), (Ratings)ratings);
-
-            
         }
 
         public void DeleteRatings(string id) {

@@ -3,11 +3,11 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "name" : "Bernard",
-    "surname" : "Cochonout",
-    "mail" : "lemaildefou@vinci.be",
-    "campus" : "dans les campagnes",
-    "password" : "dragon"
+    "name" : "Nunu",
+    "surname" : "Willump",
+    "mail" : "disconunu@vinci.be",
+    "campus" : "Woluwe-saint-lambert",
+    "password" : "123"
 }
 
 ###
