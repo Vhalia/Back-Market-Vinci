@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Back_Market_Vinci.Config;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -15,10 +17,7 @@ namespace Back_Market_Vinci.Domaine
 
         public string Surname { get; set; }
         public string Mail { get; set; }
-        [BsonSerializer(typeof(NullableIntAsIntSerializer))]
-        public int? Like { get; set; }
-        [BsonSerializer(typeof(NullableIntAsIntSerializer))]
-        public int? Dislike { get; set; }
+
         public string Campus { get; set; }
         
         public string Password { get; set; }
@@ -27,7 +26,9 @@ namespace Back_Market_Vinci.Domaine
         [BsonSerializer(typeof(NullableBooleanAsBooleanSerializer))]
         public Boolean? IsAdmin { get; set; }
 
-        public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, int? Dislike, int? Like, Boolean? IsAdmin) {
+        public List<Ratings> Ratings { get; set; }
+
+        public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin, List<Ratings> Ratings) {
             this.Id = id;
             this.Name = name;
             this.Surname = surname;
@@ -35,10 +36,9 @@ namespace Back_Market_Vinci.Domaine
             this.Campus = campus;
             this.Password = password;
             this.IsBanned = IsBanned;
-            this.Dislike = Dislike;
-            this.Like = Like;
             this.IsAdmin = IsAdmin;
-
+            this.Ratings = Ratings;
+            
         }
     }
 }

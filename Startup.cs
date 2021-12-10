@@ -26,6 +26,7 @@ namespace Back_Market_Vinci
             services.AddSingleton<IDalServices, DalServices>();
             services.AddSingleton<IUserDAO, UserDAO>();
             services.AddSingleton<IUserUCC, UserUCC>();
+            services.AddSingleton<IRatingsDAO, RatingsDAO>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

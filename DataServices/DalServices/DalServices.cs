@@ -1,11 +1,9 @@
 ﻿using Back_Market_Vinci.Domaine;
 using Back_Market_Vinci.Domaine.Product;
 using Microsoft.Extensions.Configuration;
+
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+    
 
 namespace Back_Market_Vinci.DataServices
 {
@@ -13,7 +11,7 @@ namespace Back_Market_Vinci.DataServices
     {
         public IConfiguration Configuration { get; }
 
-        private IMongoDatabase Database { 
+        private IMongoDatabase Database {
             get {
                 var client = new MongoClient(Configuration["DatabaseProperties:ConnectionString"]);
                 return client.GetDatabase(Configuration["DatabaseProperties:DatabaseName"]);
@@ -37,8 +35,15 @@ namespace Back_Market_Vinci.DataServices
         {
             get
             {
-                return Database.GetCollection<Product>(Configuration["DatabasePropertiesProductsCollectionName"]);
+                return Database.GetCollection<Product>(Configuration["DatabaseProperties:ProductsCollectionName"]);
 
+            }
+        }
+
+        public IMongoCollection<Ratings> RatingsCollection
+        {
+            get {
+                return Database.GetCollection<Ratings>(Configuration["DatabaseProperties:RatingsCollectionName"]);
             }
         }
     }

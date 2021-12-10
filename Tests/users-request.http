@@ -1,13 +1,13 @@
+
 POST http://localhost:5000/users
 Content-Type: application/json
 
 {
     "name" : "Bernard",
     "surname" : "Cochonout",
-    "mail" : "lemaildefou@vinci.uk",
-    "campus" : "poiydfghoiuytddfgyuytfftyhvgffgffgg",
-    "password" : "fiddlesticks"
-
+    "mail" : "lemaildefou@vinci.be",
+    "campus" : "dans les campagnes",
+    "password" : "dragon"
 }
 
 ###
@@ -38,5 +38,16 @@ Content-Type: application/json
 {
     "mail" : "lemaildefou@vinci.uk",
     "password" : "fiddesticks"
+
+}
+###
+
+POST http://localhost:5000/ratings
+Content-Type: application/json
+
+{
+    "idRater" : "61b31f851627fd419e0f429c",
+    "idRated" : "61b320411627fd419e0f429e",
+    "like" : 1
 
 }
