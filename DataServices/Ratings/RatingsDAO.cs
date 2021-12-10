@@ -22,5 +22,21 @@ namespace Back_Market_Vinci.DataServices
         {
             _ratingsTable.InsertOne((Ratings) ratings);
         }
+
+        public void UpdateRatings(IRatingsDTO ratings) {
+
+            _ratingsTable.ReplaceOne<Ratings>(r => r.Id.Equals(ratings.Id), (Ratings)ratings);
+
+            
+        }
+
+        public void DeleteRatings(string id) {
+            _ratingsTable.DeleteOne(r => r.Id.Equals(id));
+        }
+
+        public IRatingsDTO GetRatingsById(string id) {
+            IRatingsDTO ratings = _ratingsTable.AsQueryable().FirstOrDefault(r => r.Id.Equals(id));
+            return ratings;
+        }
     }
 }

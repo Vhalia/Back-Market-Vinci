@@ -59,14 +59,35 @@ namespace Back_Market_Vinci.Uc
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
         }
-        public void AddRating(Ratings ratings) {
+        public void AddRating(IRatingsDTO ratings) {
 
             _ratingsDAO.AddRatings(ratings);
 
 
-            IUserDTO modifiedUser = _userDAO.GetUserById(ratings.IdRater);
-            modifiedUser.Ratings.Add(ratings);
+            IUserDTO modifiedUser = _userDAO.GetUserById(ratings.IdRated);
+            modifiedUser.Ratings.Add((Ratings)ratings);
             _userDAO.UpdateUser(modifiedUser);
+        }
+
+        public void UpdateRatings(IRatingsDTO ratings) {
+
+            IUserDTO userFromDB = _userDAO.GetUserById(ratings.IdRated);
+
+
+            _ratingsDAO.UpdateRatings(ratings);
+            userFromDB.Ratings.RemoveAll(r => r.Id.Equals(ratings.Id));
+            userFromDB.Ratings.Add((Ratings)ratings);
+            _userDAO.UpdateUser(userFromDB);
+            
+        }
+
+        public void DeleteRatings(string id) {
+            IRatingsDTO ratingsFromDB = _ratingsDAO.GetRatingsById(id);
+            IUserDTO userFromDB = _userDAO.GetUserById(ratingsFromDB.IdRated);
+
+            _ratingsDAO.DeleteRatings(id);
+            userFromDB.Ratings.RemoveAll(r => r.Id.Equals(id));
+            _userDAO.UpdateUser(userFromDB);
         }
     }
 }

@@ -9,5 +9,11 @@ namespace Back_Market_Vinci.DataServices
     public interface IRatingsDAO
     {
         void AddRatings(IRatingsDTO ratings);
+
+        void UpdateRatings(IRatingsDTO ratings);
+
+        void DeleteRatings(string id);
+
+        public IRatingsDTO GetRatingsById(string id);
     }
 }
