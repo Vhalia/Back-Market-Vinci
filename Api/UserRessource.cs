@@ -59,7 +59,7 @@ namespace Back_Market_Vinci.Api
         }
 
         [HttpPost]
-        [Route("/ratings")]
+        [Route("/users/ratings")]
         public void AddRating(Ratings ratings) {
             _userUCC.AddRating(ratings);
         }
