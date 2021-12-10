@@ -32,5 +32,33 @@ namespace Back_Market_Vinci.Api
         {
             return _productUCC.UpdateProductbyId(id, productToBeUpdated);
         }
+
+        [HttpGet]
+        [Route("/products/{id}")]
+        public IProductDTO GetProductById(string id)
+        {
+            return _productUCC.GetProductById(id);
+        }
+
+        [HttpDelete]
+        [Route("/products/{id}")]
+        public void DeleteProductById(string id)
+        {
+            _productUCC.DeleteProductById(id);
+        }
+
+        [HttpPost]
+        [Route("/products")]
+        public IProductDTO CreateProduct(Product productToCreate)
+        {
+            return _productUCC.CreateProduct(productToCreate);
+        }
+
+        [HttpGet]
+        [Route("/products/notValidated")]
+        public List<IProductDTO> GetProductsNotValidated()
+        {
+            return _productUCC.GetProductsNotValidated();
+        }
     }
 }

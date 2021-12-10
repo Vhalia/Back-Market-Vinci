@@ -23,15 +23,42 @@ namespace Back_Market_Vinci.Uc
 
         }
 
+        public IProductDTO CreateProduct(IProductDTO productToCreate)
+        {
+            AddSellerToProduct(productToCreate);
+            return _productDAO.CreateProduct((Product)productToCreate);
+        }
+
+        public void DeleteProductById(string id)
+        {
+            _productDAO.DeleteProductById(id);
+        }
+
+        public IProductDTO GetProductById(string id)
+        {
+            IProductDTO productFromDb = _productDAO.GetProductById(id);
+            AddSellerToProduct(productFromDb);
+            return productFromDb;
+        }
+
         public List<IProductDTO> GetProducts()
         {
             List<IProductDTO> productsDTO = _productDAO.GetProducts();
             foreach (IProductDTO product in productsDTO)
             {
-                IUserDTO user = _userDAO.GetUserById(product.SellerId);
-                product.Seller = (User)user;
+                AddSellerToProduct(product);
             }
             return productsDTO;
+        }
+
+        public List<IProductDTO> GetProductsNotValidated()
+        {
+            List<IProductDTO> productsNotValidatedDb = _productDAO.GetProductsNotValidated();
+            foreach (IProductDTO product in productsNotValidatedDb)
+            {
+                AddSellerToProduct(product);
+            }
+            return productsNotValidatedDb;
         }
 
         public IProductDTO UpdateProductbyId(string id, IProductDTO productIn)
@@ -39,8 +66,14 @@ namespace Back_Market_Vinci.Uc
             IProductDTO productDb = _productDAO.GetProductById(id);
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
             IProductDTO productUpdated = _productDAO.UpdateProductById(id, productToBeUpdated);
-            productUpdated.Seller = (User) _userDAO.GetUserById(productUpdated.SellerId);
+            AddSellerToProduct(productUpdated);
             return productUpdated;
+        }
+
+        private void AddSellerToProduct(IProductDTO product)
+        {
+            IUserDTO user = _userDAO.GetUserById(product.SellerId);
+            product.Seller = (User)user;
         }
     }
 }

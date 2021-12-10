@@ -40,5 +40,26 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
 
             return GetProductById(productIn.Id);
         }
+
+        public void DeleteProductById(string id)
+        {
+            _productsTable.DeleteOne<Product>(p => p.Id.Equals(id));
+        }
+
+        public IProductDTO CreateProduct(Product productToCreate)
+        {
+            _productsTable.InsertOne(productToCreate);
+            return productToCreate;
+        }
+
+        public List<IProductDTO> GetProductsNotValidated()
+        {
+            return _productsTable.AsQueryable<Product>()
+                .Select(p => new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value,
+                p.ReasonNotValidated, p.Seller, p.SellerId,
+                p.Adress, p.SentType, p.Price.Value))
+                .Where(p => (!p.IsValidated.Value || p.IsValidated == null) && p.ReasonNotValidated == null)
+                .ToList<IProductDTO>();
+        }
     }
 }
