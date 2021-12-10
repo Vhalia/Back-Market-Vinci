@@ -55,6 +55,14 @@ namespace Back_Market_Vinci.Api
         [Route("/login")]
         public IUserDTO Login(User user) {
             return _userUCC.Login(user);
+            
         }
+
+        [HttpPost]
+        [Route("/users/ratings")]
+        public void AddRating(Ratings ratings) {
+            _userUCC.AddRating(ratings);
+        }
+
     }
 }
