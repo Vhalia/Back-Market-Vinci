@@ -1,4 +1,6 @@
+using Back_Market_Vinci.Api;
 using Back_Market_Vinci.DataServices;
+using Back_Market_Vinci.DataServices.ProductDAO;
 using Back_Market_Vinci.Uc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +28,8 @@ namespace Back_Market_Vinci
             services.AddSingleton<IDalServices, DalServices>();
             services.AddSingleton<IUserDAO, UserDAO>();
             services.AddSingleton<IUserUCC, UserUCC>();
+            services.AddSingleton<IProductDAO, ProductDAO>();
+            services.AddSingleton<IProductUCC, ProductUCC>();
             services.AddSingleton<IRatingsDAO, RatingsDAO>();
         }
 
@@ -36,11 +40,12 @@ namespace Back_Market_Vinci
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseRouting();
+            
             app.UseCors(
                 options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
             );
-
-            app.UseRouting();
 
             app.UseAuthorization();
 

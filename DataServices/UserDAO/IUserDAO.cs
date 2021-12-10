@@ -1,4 +1,5 @@
-﻿using Back_Market_Vinci.Domaine;
+﻿using Back_Market_Vinci.DataServices.ProductDAO;
+using Back_Market_Vinci.Domaine;
 using System;
 using System.Collections.Generic;
 
@@ -13,9 +14,7 @@ namespace Back_Market_Vinci.DataServices
         public IUserDTO Register(IUserDTO user);
 
         public void DeleteUser(string id);
-
         public IUserDTO GetUserById(string id);
-
         public IUserDTO UpdateUser(IUserDTO modifiedUser);
 
     }
