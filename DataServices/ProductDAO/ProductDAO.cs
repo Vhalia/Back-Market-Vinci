@@ -51,5 +51,15 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             _productsTable.InsertOne(productToCreate);
             return productToCreate;
         }
+
+        public List<IProductDTO> GetProductsNotValidated()
+        {
+            return _productsTable.AsQueryable<Product>()
+                .Select(p => new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value,
+                p.ReasonNotValidated, p.Seller, p.SellerId,
+                p.Adress, p.SentType, p.Price.Value))
+                .Where(p => (!p.IsValidated.Value || p.IsValidated == null) && p.ReasonNotValidated == null)
+                .ToList<IProductDTO>();
+        }
     }
 }

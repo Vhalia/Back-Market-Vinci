@@ -53,5 +53,12 @@ namespace Back_Market_Vinci.Api
         {
             return _productUCC.CreateProduct(productToCreate);
         }
+
+        [HttpGet]
+        [Route("/products/notValidated")]
+        public List<IProductDTO> GetProductsNotValidated()
+        {
+            return _productUCC.GetProductsNotValidated();
+        }
     }
 }
