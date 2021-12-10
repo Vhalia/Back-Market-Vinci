@@ -64,5 +64,17 @@ namespace Back_Market_Vinci.Api
             _userUCC.AddRating(ratings);
         }
 
+        [HttpPatch]
+        [Route("/users/ratings")]
+        public void UpdateRating(Ratings ratings) {
+            _userUCC.UpdateRatings(ratings);
+        }
+
+        [HttpDelete]
+        [Route("/users/ratings/{id}")]
+        public void DeleteRatings(string id) {
+            _userUCC.DeleteRatings(id);
+        }
+
     }
 }
