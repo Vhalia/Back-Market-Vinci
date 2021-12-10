@@ -12,5 +12,6 @@ namespace Back_Market_Vinci.Uc
         void DeleteProductById(string id);
         IProductDTO CreateProduct(Product productToCreate);
         List<IProductDTO> GetProductsNotValidated();
+        IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn);
     }
 }

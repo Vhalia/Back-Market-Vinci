@@ -1,4 +1,5 @@
 ﻿using Back_Market_Vinci.Domaine.Product;
+using System;
 using System.Collections.Generic;
 
 namespace Back_Market_Vinci.Api
@@ -11,5 +12,6 @@ namespace Back_Market_Vinci.Api
         void DeleteProductById(string id);
         IProductDTO CreateProduct(IProductDTO productToCreate);
         List<IProductDTO> GetProductsNotValidated();
+        IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn);
     }
 }

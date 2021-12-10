@@ -60,5 +60,12 @@ namespace Back_Market_Vinci.Api
         {
             return _productUCC.GetProductsNotValidated();
         }
+
+        [HttpPatch]
+        [Route("/products/{id}/validate")]
+        public IProductDTO UpdateValidationOfProductById(string id, Product productIn)
+        {
+            return _productUCC.UpdateValidationOfProductById(id, productIn);
+        }
     }
 }

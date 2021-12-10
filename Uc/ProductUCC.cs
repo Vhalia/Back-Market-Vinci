@@ -44,9 +44,10 @@ namespace Back_Market_Vinci.Uc
         public List<IProductDTO> GetProducts()
         {
             List<IProductDTO> productsDTO = _productDAO.GetProducts();
-            foreach (IProductDTO product in productsDTO)
+            for (var i = 0; i < productsDTO.Count; i++)
             {
-                AddSellerToProduct(product);
+                AddSellerToProduct(productsDTO[i]);
+                if (productsDTO[i].Seller.IsBanned.Value) productsDTO.Remove(productsDTO[i]);
             }
             return productsDTO;
         }
@@ -68,6 +69,14 @@ namespace Back_Market_Vinci.Uc
             IProductDTO productUpdated = _productDAO.UpdateProductById(id, productToBeUpdated);
             AddSellerToProduct(productUpdated);
             return productUpdated;
+        }
+
+        public IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn)
+        {
+            IProductDTO productDb = _productDAO.GetProductById(id);
+            IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
+            if (productIn.IsValidated.Value) productToBeUpdated.ReasonNotValidated = null;
+            return _productDAO.UpdateValidationOfProductById(id, productToBeUpdated);
         }
 
         private void AddSellerToProduct(IProductDTO product)
