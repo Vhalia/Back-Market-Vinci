@@ -31,7 +31,10 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
 
         public IProductDTO GetProductById(string id)
         {
-            return _productsTable.AsQueryable().Single(p => p.Id.Equals(id));
+            return _productsTable.AsQueryable()
+                .Select(p => new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.Seller,
+                p.SellerId, p.Adress, p.SentType, p.Price.Value))
+                .Where(p => p.Id.Equals(id)).Single<Product>();
         }
 
         public IProductDTO UpdateProductById(string id, IProductDTO productIn)
