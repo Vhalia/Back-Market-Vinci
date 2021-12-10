@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Back_Market_Vinci.Config;
+
 
 namespace Back_Market_Vinci.DataServices
 {
@@ -20,24 +20,19 @@ namespace Back_Market_Vinci.DataServices
 
         public List<IUserDTO> GetUsers()
         {
-            List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u =>
-                new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.Dislike.Value, u.Like.Value, u.IsAdmin.Value)).ToList<IUserDTO>();
+            List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u => new User(u.Id,u.Name, u.Surname,u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value, u.Ratings)).ToList<IUserDTO>();
             return allUsers;
         }
 
-        public IUserDTO GetUserByMail(string mail)
-        {
-            IUserDTO user = _usersTable.AsQueryable().Single(u =>
-                u.Mail.Equals(mail));
+        public IUserDTO GetUserByMail(string mail) {
+            IUserDTO user = _usersTable.AsQueryable().Single(u => u.Mail.Equals(mail));
             return user;
 
         }
 
-        public IUserDTO Register(IUserDTO user)
-        {
-
-            _usersTable.InsertOne((User)user);
-            return user;
+        public IUserDTO Register(IUserDTO user) {
+            _usersTable.InsertOne((User) user);
+            return  user;
         }
 
         public void DeleteUser(string id)
@@ -51,33 +46,14 @@ namespace Back_Market_Vinci.DataServices
             return user;
         }
 
-        public IUserDTO UpdateUser(IUserDTO user, string id)
-        {
-            IUserDTO userFromDB = this.GetUserById(id);
+        public IUserDTO UpdateUser(IUserDTO modifiedUser) {
 
-            IUserDTO modifiedUser = CheckNullFields<IUserDTO>.CheckNull(user, userFromDB);
-
-            _usersTable.ReplaceOne<User>(u => u.Id.Equals(user.Id), (User)modifiedUser);
+            _usersTable.ReplaceOne<User>(u => u.Id.Equals(modifiedUser.Id), (User)modifiedUser);
 
             return modifiedUser;
 
         }
 
-        public IUserDTO Login(IUserDTO user)
-        {
-            IUserDTO userFromDB = this.GetUserByMail(user.Mail);
-
-            if (userFromDB.Password.Equals(user.Password))
-            {
-                return userFromDB;
-            }
-            else
-            {
-                return null;
-            }
-
-
-        }
 
     }
 }

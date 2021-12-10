@@ -1,13 +1,13 @@
+
 POST http://localhost:5000/users
 Content-Type: application/json
 
 {
     "name" : "Bernard",
     "surname" : "Cochonout",
-    "mail" : "lemaildefou@vinci.uk",
-    "campus" : "poiydfghoiuytddfgyuytfftyhvgffgffgg",
-    "password" : "fiddlesticks"
-
+    "mail" : "lemaildefou@vinci.be",
+    "campus" : "dans les campagnes",
+    "password" : "dragon"
 }
 
 ###
@@ -15,18 +15,17 @@ GET http://localhost:5000/users
 
 
 ###
-GET http://localhost:5000/users/lemaildepaul
+GET http://localhost:5000/users/lemaildepaul@vinci.be
 
 ###
 DELETE http://localhost:5000/users/61b0ba611c4ccf9f3b6f94db
 
 ###
-PATCH  http://localhost:5000/users/61b0ba611c4ccf9f3b6f94db
+PATCH  http://localhost:5000/users/61b31f7a1627fd419e0f429b
 Content-Type: application/json
 
 {
     "name": "chap0pointulefifou",
-    "Dislike": 5,
     "IsAdmin" : true
 }
 
@@ -36,7 +35,18 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "mail" : "lemaildefou@vinci.uk",
-    "password" : "fiddesticks"
+    "mail" : "Paula.taches@vinci.be",
+    "password" : "dragon"
+
+}
+###
+
+POST http://localhost:5000/ratings
+Content-Type: application/json
+
+{
+    "idRater" : "61b31f851627fd419e0f429c",
+    "idRated" : "61b320411627fd419e0f429e",
+    "like" : 1
 
 }

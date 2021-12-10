@@ -19,5 +19,7 @@ namespace Back_Market_Vinci.Uc
         IUserDTO UpdateUser(IUserDTO user, string id);
 
         IUserDTO Login(IUserDTO user);
+
+        void AddRating(Ratings ratings);
     }
 }
