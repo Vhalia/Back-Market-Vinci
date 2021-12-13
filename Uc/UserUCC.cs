@@ -9,6 +9,8 @@ using System.Web.Http;
 using System.Net;
 using Microsoft.AspNetCore.Builder;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http;
+using Back_Market_Vinci.Domaine.Other;
 
 namespace Back_Market_Vinci.Uc
 {
@@ -16,9 +18,11 @@ namespace Back_Market_Vinci.Uc
     {
         private IUserDAO _userDAO;
         private IRatingsDAO _ratingsDAO;
-        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO) {
+        private IBlobService _blobServices;
+        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO, IBlobService blobServices) {
             this._ratingsDAO = ratingsDAO;
             this._userDAO = userDAO;
+            this._blobServices = blobServices;
         }
         public List<IUserDTO> GetUsers()
         {
@@ -100,6 +104,20 @@ namespace Back_Market_Vinci.Uc
             userFromDB.Ratings.RemoveAll(r => r.Id.Equals(id));
             _userDAO.UpdateUser(userFromDB);
 
+        }
+
+        public IUserDTO SetImage(UploadFileRequest image, string id) {
+            if (image.FileName == null) {
+                throw new ArgumentNullException("Il manquele nom du fichier ");
+            }
+            if (image.FilePath == null) {
+                throw new ArgumentNullException("Il manque le chemin vers le fichier");
+            }
+            IUserDTO user = _userDAO.GetUserById(id);
+            _blobServices.UploadFileBlobAsync(image.FilePath, image.FileName);
+            user.Image = "https://blobuploadimage.blob.core.windows.net/imagecontainer/" + image.FileName;
+            _userDAO.UpdateUser(user);
+            return user;
         }
     }
 }

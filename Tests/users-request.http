@@ -65,3 +65,12 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:5000/users/ratings/61b34250062746a8a2eb87c6
+
+###
+PUT http://localhost:5000/users/image/61b31f7a1627fd419e0f429b
+Content-Type: application/json
+
+{
+    "FilePath" : "C:\\Users\\Psycho\\Pictures\\pometer.png",
+    "FileName" : "pommeDeTerre.png"
+}

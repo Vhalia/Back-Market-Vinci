@@ -16,6 +16,6 @@ namespace Back_Market_Vinci.DataServices
 
         IMongoCollection<Ratings> RatingsCollection { get; }
 
-         CloudStorageAccount GetcloudStorageAccount { get; }
+         
     }
 }

@@ -24,6 +24,7 @@ namespace Back_Market_Vinci.Api
 
             if (exception is UnauthorizedAccessException) code = 401; // Unauthorized
             if (exception is ArgumentException) code = 400; //BadRequest
+            if (exception is ArgumentNullException) code = 400;
 
 
             Response.StatusCode = code; // You can use HttpStatusCode enum instead

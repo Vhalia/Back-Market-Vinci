@@ -45,26 +45,6 @@ namespace Back_Market_Vinci.DataServices
             get {
                 return Database.GetCollection<Ratings>(Configuration["DatabaseProperties:RatingsCollectionName"]);
             }
-        }
-
-        public CloudStorageAccount GetcloudStorageAccount
-        {
-            get{ 
-                return CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=blobuploadimage;AccountKey=BxpjEgWtc9bWa2fiu0J2Cuu0CeNoYH+ft4xpSvSD+2DCblvd5+atcoXYswrERxq9juWoQpMtKMIbOnZb4QXClA==;EndpointSuffix=core.windows.net");
-            }
-        
-        }
-
-        public CloudBlobContainer GetcloudBlobContainer
-        {
-            get {
-                var cloudBlobClient = GetcloudStorageAccount.CreateCloudBlobClient();
-                return cloudBlobClient.GetContainerReference("imagecontainer");
-            }
-        
-        }
-             
-           
-        
+        }        
     }
 }
