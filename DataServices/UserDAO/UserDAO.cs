@@ -33,7 +33,7 @@ namespace Back_Market_Vinci.DataServices
         }
 
         public IUserDTO GetUserByMail(string mail) {
-            IUserDTO user = _usersTable.AsQueryable().Single(u => u.Mail.Equals(mail));
+            IUserDTO user = _usersTable.AsQueryable().Select(u => new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value)).Where(u => u.Mail.Equals(mail)).Single<IUserDTO>();
             return user;
 
         }
