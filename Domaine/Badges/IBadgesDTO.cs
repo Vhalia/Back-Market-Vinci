@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Back_Market_Vinci.Domaine
 {
-    interface IBadgesDTO
+    public interface IBadgesDTO
     {
         public string Image { get; set; }
 
-        public bool isUnlocked { get; set; }
+        public bool IsUnlocked { get; set; }
 
         public string Title { get; set; }
 

@@ -13,8 +13,8 @@ namespace Back_Market_Vinci.DataServices
 
         IMongoCollection<User> UsersCollection { get; }
         IMongoCollection<Product> ProductsCollection { get; }
-
         IMongoCollection<Ratings> RatingsCollection { get; }
+        IMongoCollection<Badges> BadgesCollection { get; }
 
          
     }
