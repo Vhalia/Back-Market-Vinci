@@ -48,7 +48,7 @@ namespace Back_Market_Vinci.Uc
             user.Ratings = new List<Ratings>();
             user.IsAdmin = false;
             user.IsBanned = false;
-            user.FavProduct = new List<Product>();
+            user.FavProducts = new List<Product>();
             user.Bought = new List<Product>();
             user.Sold = new List<Product>();
 

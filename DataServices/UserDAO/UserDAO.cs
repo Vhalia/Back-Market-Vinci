@@ -23,7 +23,7 @@ namespace Back_Market_Vinci.DataServices
 
         public List<IUserDTO> GetUsers()
         {
-            List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u => new User(u.Id,u.Name, u.Surname,u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value)).ToList<IUserDTO>();
+            List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u => new User(u.Id,u.Name, u.Surname,u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value, u.Sold, u.Bought, u.FavTypes, u.FavProducts, u.Badges, u.Image)).ToList<IUserDTO>();
             return allUsers;
         }
 
@@ -33,7 +33,7 @@ namespace Back_Market_Vinci.DataServices
         }
 
         public IUserDTO GetUserByMail(string mail) {
-            IUserDTO user = _usersTable.AsQueryable().Select(u => new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value)).Where(u => u.Mail.Equals(mail)).Single<IUserDTO>();
+            IUserDTO user = _usersTable.AsQueryable().Select(u => new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value, u.Sold, u.Bought, u.FavTypes, u.FavProducts, u.Badges, u.Image)).Where(u => u.Mail.Equals(mail)).Single<IUserDTO>();
             return user;
 
         }
@@ -50,7 +50,7 @@ namespace Back_Market_Vinci.DataServices
 
         public IUserDTO GetUserById(string id)
         {
-            IUserDTO user = _usersTable.AsQueryable().Select(u => new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password, u.IsBanned,u.IsAdmin)).Where(u => u.Id.Equals(id)).Single<IUserDTO>();
+            IUserDTO user = _usersTable.AsQueryable().Select(u => new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus, u.Password, u.IsBanned,u.IsAdmin, u.Sold, u.Bought, u.FavTypes, u.FavProducts, u.Badges, u.Image)).Where(u => u.Id.Equals(id)).Single<IUserDTO>();
             return user;
         }
 

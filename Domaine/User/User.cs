@@ -36,11 +36,11 @@ namespace Back_Market_Vinci.Domaine
 
         public List<Product> Bought { get; set; }
 
-        public List<Product> FavProduct { get; set; }
+        public List<Product> FavProducts { get; set; }
 
         public List<Badges> Badges { get; set; }
 
-        public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin, List<Product> Sold, List<Product> Bought) {
+        public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin, List<Product> Sold, List<Product> Bought, List<String> FavTypes, List<Product> FavProducts, List<Badges> Badges, string Image) {
             this.Id = id;
             this.Name = name;
             this.Surname = surname;
@@ -52,6 +52,9 @@ namespace Back_Market_Vinci.Domaine
             this.Badges = Badges;
             this.Sold = Sold;
             this.Bought = Bought;
+            this.FavProducts = FavProducts;
+            this.FavTypes = FavTypes;
+            this.Image = Image;
             
         }
     }
