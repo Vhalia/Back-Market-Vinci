@@ -1,6 +1,5 @@
 ﻿using Back_Market_Vinci.Config;
 using Back_Market_Vinci.Domaine;
-using Back_Market_Vinci.Domaine.Product;
 using Back_Market_Vinci.Uc;
 using MongoDB.Bson;
 using MongoDB.Driver;

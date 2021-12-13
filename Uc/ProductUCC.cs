@@ -2,7 +2,6 @@
 using Back_Market_Vinci.Config;
 using Back_Market_Vinci.DataServices;
 using Back_Market_Vinci.Domaine;
-using Back_Market_Vinci.Domaine.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;

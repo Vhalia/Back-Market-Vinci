@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Back_Market_Vinci.Config;
 using System.Web.Http;
 using System.Net;
+using Microsoft.AspNetCore.Builder;
+using System.Text.RegularExpressions;
 
 namespace Back_Market_Vinci.Uc
 {
@@ -24,7 +26,16 @@ namespace Back_Market_Vinci.Uc
         }
 
         public IUserDTO GetUserByMail(string mail) {
-            return _userDAO.GetUserByMail(mail);
+            string pattern = "^[A-Za-z0-9.]+@+(vinci|student.vinci)+(.be)$";
+            Match match = Regex.Match(mail, pattern);
+            if (match.Success)
+            {
+                return _userDAO.GetUserByMail(mail);
+            }
+            else {
+                throw new ArgumentException("Le mail ne correspond pas à un mail vinci");
+            }
+           
         }
 
         public IUserDTO Register(IUserDTO user)
@@ -56,7 +67,7 @@ namespace Back_Market_Vinci.Uc
             }
             else
             {
-                throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                throw new UnauthorizedAccessException("mail ou mot de passe errone ");
             }
         }
         public void AddRating(IRatingsDTO ratings) {
@@ -88,6 +99,7 @@ namespace Back_Market_Vinci.Uc
             _ratingsDAO.DeleteRatings(id);
             userFromDB.Ratings.RemoveAll(r => r.Id.Equals(id));
             _userDAO.UpdateUser(userFromDB);
+
         }
     }
 }

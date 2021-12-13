@@ -1,5 +1,5 @@
 ﻿using Back_Market_Vinci.Domaine;
-using Back_Market_Vinci.Domaine.Product;
+using Microsoft.Azure.Storage;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -15,5 +15,7 @@ namespace Back_Market_Vinci.DataServices
         IMongoCollection<Product> ProductsCollection { get; }
 
         IMongoCollection<Ratings> RatingsCollection { get; }
+
+         CloudStorageAccount GetcloudStorageAccount { get; }
     }
 }

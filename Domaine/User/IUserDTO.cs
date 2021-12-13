@@ -2,9 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace Back_Market_Vinci.Domaine
 {
@@ -29,5 +27,15 @@ namespace Back_Market_Vinci.Domaine
         public Boolean? IsAdmin { get; set; }
 
         public List<Ratings> Ratings { get; set; }
+
+        public string Image { get; set; }
+
+        public List<String> FavTypes { get; set; }
+
+        public List<Product> Selled { get; set; }
+
+        public List<Product> Buyed { get; set; }
+
+        public List<Product> FavProduct { get; set; }
     }
 }

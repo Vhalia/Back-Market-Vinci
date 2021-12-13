@@ -4,7 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Back_Market_Vinci.Domaine.Product
+namespace Back_Market_Vinci.Domaine
 {
     public class Product : IProduct, IProductDTO, IProductDb
     {

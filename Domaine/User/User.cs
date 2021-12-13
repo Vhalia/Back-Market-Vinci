@@ -28,6 +28,18 @@ namespace Back_Market_Vinci.Domaine
 
         public List<Ratings> Ratings { get; set; }
 
+        public string Image { get; set; }
+
+        public List<String> FavTypes { get; set; }
+
+        public List<Product> Selled { get; set; }
+
+        public List<Product> Buyed { get; set; }
+
+        public List<Product> FavProduct { get; set; }
+
+        public List<Badges> Badges { get; set; }
+
         public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin, List<Ratings> Ratings) {
             this.Id = id;
             this.Name = name;
