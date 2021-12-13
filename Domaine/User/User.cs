@@ -40,7 +40,7 @@ namespace Back_Market_Vinci.Domaine
 
         public List<Badges> Badges { get; set; }
 
-        public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin) {
+        public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin, List<Product> Sold, List<Product> Bought) {
             this.Id = id;
             this.Name = name;
             this.Surname = surname;
@@ -50,6 +50,8 @@ namespace Back_Market_Vinci.Domaine
             this.IsBanned = IsBanned;
             this.IsAdmin = IsAdmin;
             this.Badges = Badges;
+            this.Sold = Sold;
+            this.Bought = Bought;
             
         }
     }

@@ -114,7 +114,7 @@ namespace Back_Market_Vinci.Uc
 
         public IUserDTO SetImageWithPath(UploadFileRequest image, string id) {
             if (image.FileName == null) {
-                throw new ArgumentNullException("Il manque nom du fichier ");
+                throw new ArgumentNullException("Il manque le nom du fichier ");
             }
             if (image.FilePath == null) {
                 throw new ArgumentNullException("Il manque le chemin vers le fichier");
@@ -129,7 +129,7 @@ namespace Back_Market_Vinci.Uc
         public IUserDTO SetImageWithContent(UploadContentRequest image, string id) {
 
             if (image.Content == null) {
-                throw new ArgumentNullException("Il manque le contenu de l image");
+                throw new ArgumentNullException("Il manque le contenu de l'image");
             }
             if (image.FileName == null) {
                 throw new ArgumentNullException("Il manque le nom du fichier");
