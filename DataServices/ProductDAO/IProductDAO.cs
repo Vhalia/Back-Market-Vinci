@@ -9,5 +9,9 @@ namespace Back_Market_Vinci.Uc
 
         public IProductDTO GetProductById(string id);
         IProductDTO UpdateProductById(string id, IProductDTO productToBeUpdated);
+        void DeleteProductById(string id);
+        IProductDTO CreateProduct(Product productToCreate);
+        List<IProductDTO> GetProductsNotValidated();
+        IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn);
     }
 }

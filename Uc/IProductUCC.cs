@@ -1,4 +1,5 @@
-﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine;
+using System;
 using System.Collections.Generic;
 
 namespace Back_Market_Vinci.Api
@@ -7,5 +8,10 @@ namespace Back_Market_Vinci.Api
     {
         List<IProductDTO> GetProducts();
         IProductDTO UpdateProductbyId(string id, IProductDTO productToUpdate);
+        IProductDTO GetProductById(string id);
+        void DeleteProductById(string id);
+        IProductDTO CreateProduct(IProductDTO productToCreate);
+        List<IProductDTO> GetProductsNotValidated();
+        IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn);
     }
 }
