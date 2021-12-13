@@ -3,7 +3,7 @@ using Back_Market_Vinci.Config;
 using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Back_Market_Vinci.Domaine.Product
+namespace Back_Market_Vinci.Domaine
 {
     public interface IProductDTO
     {

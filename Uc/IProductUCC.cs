@@ -1,4 +1,4 @@
-﻿using Back_Market_Vinci.Domaine.Product;
+﻿using Back_Market_Vinci.Domaine;
 using System.Collections.Generic;
 
 namespace Back_Market_Vinci.Api

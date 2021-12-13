@@ -15,5 +15,9 @@ namespace Back_Market_Vinci.Domaine.Other
         ToGive, ToSell, ToSwap
     };
 
+    public enum Types {
+        Book, Tools, Furnitures, Videogames, Computers, Bikes, MusicalInstruments, Films, Toys, Phones, Hardware, Jewellery, Clothes, Sport
+    };
+
 
 }
