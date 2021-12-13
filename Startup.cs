@@ -1,6 +1,8 @@
+using Azure.Storage.Blobs;
 using Back_Market_Vinci.Api;
 using Back_Market_Vinci.DataServices;
 using Back_Market_Vinci.DataServices.ProductDAO;
+using Back_Market_Vinci.Domaine.Other;
 using Back_Market_Vinci.Uc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +21,11 @@ namespace Back_Market_Vinci
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration) {
+            Configuration = configuration;
+        }
 
+        public IConfiguration Configuration { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,6 +37,8 @@ namespace Back_Market_Vinci
             services.AddSingleton<IProductDAO, ProductDAO>();
             services.AddSingleton<IProductUCC, ProductUCC>();
             services.AddSingleton<IRatingsDAO, RatingsDAO>();
+            services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
+            services.AddSingleton<IBlobService, BlobService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
