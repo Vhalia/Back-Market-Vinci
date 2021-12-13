@@ -55,7 +55,7 @@ namespace Back_Market_Vinci.DataServices
         
         }
 
-        public CloudBlobContainer GetcloudBlobContainer
+        public CloudBlobContainer GetcloudBlobImageContainer
         {
             get {
                 var cloudBlobClient = GetcloudStorageAccount.CreateCloudBlobClient();
