@@ -51,6 +51,7 @@ namespace Back_Market_Vinci.Uc
             user.FavProducts = new List<Product>();
             user.Bought = new List<Product>();
             user.Sold = new List<Product>();
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
             user.Badges = badges.ConvertAll(b => (Badges)b);
             user.Badges.ElementAt(0).IsUnlocked = true;
@@ -71,7 +72,7 @@ namespace Back_Market_Vinci.Uc
         public IUserDTO Login(IUserDTO user) {
             IUserDTO userFromDB = _userDAO.GetUserByMail(user.Mail);
 
-            if (userFromDB.Password.Equals(user.Password))
+            if (BCrypt.Net.BCrypt.Verify(user.Password, userFromDB.Password))
             {
                 return userFromDB;
             }

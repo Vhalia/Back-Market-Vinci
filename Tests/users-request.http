@@ -3,11 +3,11 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "name" : "Nunu",
-    "surname" : "Willump",
-    "mail" : "disconunu@vinci.be",
-    "campus" : "Woluwe-saint-lambert",
-    "password" : "123"
+"Name":"banned",
+"Surname":"le banni",
+"Mail":"banned@vinci.be",
+"Campus":"Clos Chapelle-aux-Champs 43, 1200 Woluwe-Saint-Lambert",
+"Password":"dragon"
 }
 
 ###
@@ -35,8 +35,8 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "mail" : "Paula.taches@vinci.be",
-    "password" : "dragong"
+    "mail" : "disconunu@vinci.be",
+    "password" : "123"
 
 }
 ###

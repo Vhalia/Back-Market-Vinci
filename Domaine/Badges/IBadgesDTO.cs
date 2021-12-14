@@ -7,6 +7,7 @@ namespace Back_Market_Vinci.Domaine
 {
     public interface IBadgesDTO
     {
+        public string Id { get; set; }
         public string Image { get; set; }
 
         public bool IsUnlocked { get; set; }

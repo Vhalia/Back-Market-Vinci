@@ -28,7 +28,7 @@ namespace Back_Market_Vinci.DataServices
         }
 
         public List<IBadgesDTO> GetBadges() {
-            List<IBadgesDTO> allBadges = _badgesTable.AsQueryable().Select(b => new Badges(b.Image, b.IsUnlocked, b.Title, b.Description)).ToList<IBadgesDTO>();
+            List<IBadgesDTO> allBadges = _badgesTable.AsQueryable().Select(b => new Badges(b.Id, b.Image, b.IsUnlocked, b.Title, b.Description)).ToList<IBadgesDTO>();
             return allBadges;
         }
 
