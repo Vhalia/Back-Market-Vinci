@@ -40,7 +40,22 @@ namespace Back_Market_Vinci.Domaine
 
         public List<Badges> Badges { get; set; }
 
-        public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin, List<Product> Sold, List<Product> Bought, List<String> FavTypes, List<Product> FavProducts, List<Badges> Badges, string Image, List<Ratings> Ratings) {
+        public static List<string> CampusAvailable { 
+            get
+            {
+                List<string> campus = new List<string>();
+                campus.Add("Ixelles");
+                campus.Add("Woluwe-saint-lambert");
+                campus.Add("Louvain-la-Neuve");
+                return campus;
+            }
+        }
+
+        public User(string id, string name, string surname,
+            string mail, string campus, string password,
+            Boolean? IsBanned, Boolean? IsAdmin, List<Product> Sold,
+            List<Product> Bought, List<String> FavTypes, List<Product> FavProducts,
+            List<Badges> Badges, string Image , List<Ratings> Ratings) {
             this.Id = id;
             this.Name = name;
             this.Surname = surname;

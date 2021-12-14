@@ -1,5 +1,6 @@
 ﻿using Back_Market_Vinci.Config;
 using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Exceptions;
 using Back_Market_Vinci.Uc;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -24,28 +25,43 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         public List<IProductDTO> GetProducts()
         {
             return _productsTable.AsQueryable().Select(p =>
-                new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.Seller,
-                p.SellerId, p.Adress, p.SentType, p.Price.Value,p.Medias, p.BlobMedias)).ToList<IProductDTO>();
+                new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
+                p.SellerId, p.Adress, p.SentType.Value, p.Price.Value,p.Type.Value,p.Medias, p.BlobMedias)).ToList<IProductDTO>();
         }
 
         public IProductDTO GetProductById(string id)
         {
-            return _productsTable.AsQueryable()
-                .Select(p => new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.Seller,
-                p.SellerId, p.Adress, p.SentType, p.Price.Value, p.Medias, p.BlobMedias))
-                .Where(p => p.Id.Equals(id)).Single<Product>();
+            IProductDTO productFound = null;
+            try
+            {
+                productFound = _productsTable.AsQueryable()
+                    .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
+                    p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type, p.Medias, p.BlobMedias))
+                    .Where(p => p.Id.Equals(id)).Single<Product>();
+            }
+            catch(ArgumentNullException)
+            {
+                throw new ProductNotFoundException("Le produit avec l'id " + id + " n'a pas été trouvé");
+            }
+            catch(InvalidOperationException)
+            {
+                throw new ProductNotFoundException("Plusieurs produits ont été trouvés avec le même id ou le produit n'a pas été trouvé");
+            }
+            
+            return productFound;
         }
 
         public IProductDTO UpdateProductById(string id, IProductDTO productIn)
         {
-            _productsTable.ReplaceOne<Product>(p => p.Id.Equals(id), (Product)productIn);
-
-            return GetProductById(productIn.Id);
+            IProductDTO productModified = _productsTable.FindOneAndReplace<Product>(p => p.Id.Equals(id), (Product)productIn);
+            if (productModified == null) throw new ProductNotFoundException("Le produit avec l'id " + id + " n'a pas été trouvé");
+            return productIn;
         }
 
         public void DeleteProductById(string id)
         {
-            _productsTable.DeleteOne<Product>(p => p.Id.Equals(id));
+            IProductDTO productDeleted = _productsTable.FindOneAndDelete<Product>(p => p.Id.Equals(id));
+            if (productDeleted == null) throw new ProductNotFoundException("Le produit avec l'id " + id + " n'a pas été trouvé");
         }
 
         public IProductDTO CreateProduct(Product productToCreate)
@@ -57,16 +73,17 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         public List<IProductDTO> GetProductsNotValidated()
         {
             return _productsTable.AsQueryable<Product>()
-                .Select(p => new Product(p.Id, p.Name, p.State, p.Description, p.IsValidated.Value,
-                p.ReasonNotValidated, p.Seller, p.SellerId,
-                p.Adress, p.SentType, p.Price.Value, p.Medias, p.BlobMedias))
+                .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value,
+                p.ReasonNotValidated, p.SellerMail, p.SellerId,
+                p.Adress, p.SentType.Value, p.Price.Value, p.Type, p.Medias, p.BlobMedias))
                 .Where(p => (!p.IsValidated.Value || p.IsValidated == null) && p.ReasonNotValidated == null)
                 .ToList<IProductDTO>();
         }
 
         public IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn)
         {
-            _productsTable.ReplaceOne<Product>(p => p.Id.Equals(id), (Product)productIn);
+            IProductDTO productModified = _productsTable.FindOneAndReplace<Product>(p => p.Id.Equals(id), (Product)productIn);
+            if (productModified == null) throw new ProductNotFoundException("Le produit avec l'id " + id + " n'a pas été trouvé");
             return productIn;
         }
     }
