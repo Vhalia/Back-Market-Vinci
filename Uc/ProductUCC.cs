@@ -78,6 +78,10 @@ namespace Back_Market_Vinci.Uc
             else if (toSell.Count == 5)
             {
                 user.Badges.ElementAt(11).IsUnlocked = true;
+                if (user.Badges.ElementAt(3).IsUnlocked && user.Badges.ElementAt(6).IsUnlocked && user.Badges.ElementAt(7).IsUnlocked && user.Badges.ElementAt(11).IsUnlocked)
+                {
+                    user.Badges.ElementAt(8).IsUnlocked = true;
+                }
             }
             _userDAO.UpdateUser(user);
             return productCreated;
@@ -174,6 +178,9 @@ namespace Back_Market_Vinci.Uc
             }
             else if (numberProductSold == 5) {
                 sellerDB.Badges.ElementAt(3).IsUnlocked = true;
+                if (sellerDB.Badges.ElementAt(3).IsUnlocked && sellerDB.Badges.ElementAt(6).IsUnlocked && sellerDB.Badges.ElementAt(7).IsUnlocked && sellerDB.Badges.ElementAt(11).IsUnlocked) {
+                    sellerDB.Badges.ElementAt(8).IsUnlocked = true;
+                }
             }
 
             clientDB.Bought.Add(idProduct);
@@ -199,6 +206,10 @@ namespace Back_Market_Vinci.Uc
             else if (numberBought == 5)
             {
                 clientDB.Badges.ElementAt(6).IsUnlocked = true;
+                if (sellerDB.Badges.ElementAt(3).IsUnlocked && sellerDB.Badges.ElementAt(6).IsUnlocked && sellerDB.Badges.ElementAt(7).IsUnlocked && sellerDB.Badges.ElementAt(11).IsUnlocked)
+                {
+                    sellerDB.Badges.ElementAt(8).IsUnlocked = true;
+                }
             }
 
             
