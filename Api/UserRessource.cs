@@ -80,10 +80,16 @@ namespace Back_Market_Vinci.Api
         }
 
         [HttpPut]
-        [Route("/users/image/{id}")]
-        public IUserDTO SetImage(UploadFileRequest image, string id ) {
-            return _userUCC.SetImage(image, id);
+        [Route("/users/imagePath/{id}")]
+        public IUserDTO SetImageWithPath(UploadFileRequest image, string id ) {
+            return _userUCC.SetImageWithPath(image, id);
         
+        }
+
+        [HttpPut]
+        [Route("/users/imageContent/{id}")]
+        public IUserDTO SetImageWithContent(UploadContentRequest image, string id) {
+            return _userUCC.SetImageWithContent(image, id);
         }
 
     }

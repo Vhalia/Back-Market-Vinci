@@ -45,6 +45,14 @@ namespace Back_Market_Vinci.DataServices
             get {
                 return Database.GetCollection<Ratings>(Configuration["DatabaseProperties:RatingsCollectionName"]);
             }
-        }        
+        }
+
+        public IMongoCollection<Badges> BadgesCollection
+        {
+            get
+            {
+                return Database.GetCollection<Badges>(Configuration["DatabaseProperties:BadgesCollectionName"]);
+            }
+        }
     }
 }

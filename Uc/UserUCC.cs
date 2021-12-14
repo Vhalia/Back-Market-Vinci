@@ -44,10 +44,17 @@ namespace Back_Market_Vinci.Uc
 
         public IUserDTO Register(IUserDTO user)
         {
-            user.Ratings = new List<Ratings> ();
+            List<IBadgesDTO> badges = _userDAO.GetBadges();
+            user.Ratings = new List<Ratings>();
             user.IsAdmin = false;
             user.IsBanned = false;
+            user.FavProducts = new List<Product>();
+            user.Bought = new List<Product>();
+            user.Sold = new List<Product>();
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
+            user.Badges = badges.ConvertAll(b => (Badges)b);
+            user.Badges.ElementAt(0).IsUnlocked = true;
             return _userDAO.Register(user);
         }
 
@@ -65,7 +72,7 @@ namespace Back_Market_Vinci.Uc
         public IUserDTO Login(IUserDTO user) {
             IUserDTO userFromDB = _userDAO.GetUserByMail(user.Mail);
 
-            if (userFromDB.Password.Equals(user.Password))
+            if (BCrypt.Net.BCrypt.Verify(user.Password, userFromDB.Password))
             {
                 return userFromDB;
             }
@@ -106,15 +113,31 @@ namespace Back_Market_Vinci.Uc
 
         }
 
-        public IUserDTO SetImage(UploadFileRequest image, string id) {
+        public IUserDTO SetImageWithPath(UploadFileRequest image, string id) {
             if (image.FileName == null) {
-                throw new ArgumentNullException("Il manquele nom du fichier ");
+                throw new ArgumentNullException("Il manque le nom du fichier ");
             }
             if (image.FilePath == null) {
                 throw new ArgumentNullException("Il manque le chemin vers le fichier");
             }
             IUserDTO user = _userDAO.GetUserById(id);
             _blobServices.UploadFileBlobAsync(image.FilePath, image.FileName);
+            user.Image = "https://blobuploadimage.blob.core.windows.net/imagecontainer/" + image.FileName;
+            _userDAO.UpdateUser(user);
+            return user;
+        }
+
+        public IUserDTO SetImageWithContent(UploadContentRequest image, string id) {
+
+            if (image.Content == null) {
+                throw new ArgumentNullException("Il manque le contenu de l'image");
+            }
+            if (image.FileName == null) {
+                throw new ArgumentNullException("Il manque le nom du fichier");
+            }
+            image.Content = image.Content.Substring(image.Content.IndexOf(",") + 1);
+            IUserDTO user = _userDAO.GetUserById(id);
+            _blobServices.UploadContentBlobAsync(image.Content, image.FileName);
             user.Image = "https://blobuploadimage.blob.core.windows.net/imagecontainer/" + image.FileName;
             _userDAO.UpdateUser(user);
             return user;

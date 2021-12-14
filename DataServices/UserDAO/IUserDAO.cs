@@ -9,6 +9,7 @@ namespace Back_Market_Vinci.DataServices
     public interface IUserDAO
     {
         public List<IUserDTO> GetUsers();
+        public List<IBadgesDTO> GetBadges(); 
         public IUserDTO GetUserByMail(string mail);
         public IUserDTO Register(IUserDTO user);
         public void DeleteUser(string id);

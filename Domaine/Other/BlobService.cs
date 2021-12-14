@@ -3,7 +3,9 @@ using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Back_Market_Vinci.Domaine.Other
@@ -24,7 +26,15 @@ namespace Back_Market_Vinci.Domaine.Other
             
         }
 
+        public async Task UploadContentBlobAsync(string content, string fileName) {
+            
+                var containerClient = _blobServiceClient.GetBlobContainerClient("imagecontainer");
+                var blobClient = containerClient.GetBlobClient(fileName);
+                var bytes = Convert.FromBase64String(content);
 
+                await using var memoryStream = new MemoryStream(bytes);
+                await blobClient.UploadAsync(memoryStream, new BlobHttpHeaders { ContentType = fileName.GetContentType() });
+        }
 
     }
 }

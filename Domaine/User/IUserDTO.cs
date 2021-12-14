@@ -32,10 +32,12 @@ namespace Back_Market_Vinci.Domaine
 
         public List<String> FavTypes { get; set; }
 
-        public List<Product> Selled { get; set; }
+        public List<Product> Sold { get; set; }
 
-        public List<Product> Buyed { get; set; }
+        public List<Product> Bought { get; set; }
 
-        public List<Product> FavProduct { get; set; }
+        public List<Product> FavProducts { get; set; }
+
+        public List<Badges> Badges { get; set; }
     }
 }

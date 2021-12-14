@@ -18,8 +18,7 @@ namespace Back_Market_Vinci.Api
             var code = 500;
 
             if (exception is UnauthorizedAccessException) code = 401; // Unauthorized
-            if (exception is ArgumentException) code = 400; //BadRequest
-            if (exception is ArgumentNullException) code = 400;
+            if (exception is ArgumentException || exception is ArgumentNullException) code = 400; //BadRequest
 
 
             Response.StatusCode = code;

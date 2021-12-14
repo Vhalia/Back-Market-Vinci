@@ -28,6 +28,8 @@ namespace Back_Market_Vinci.Uc
 
         void DeleteRatings(string id);
 
-        IUserDTO SetImage(UploadFileRequest image, string id);
+        IUserDTO SetImageWithPath(UploadFileRequest image, string id);
+
+        IUserDTO SetImageWithContent(UploadContentRequest image, string id);
     }
 }
