@@ -44,18 +44,11 @@ namespace Back_Market_Vinci
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+            var options = new ExceptionHandlerOptions();
+            options.AllowStatusCode404Response = true;
+            options.ExceptionHandlingPath = "/error";
+            app.UseExceptionHandler(options);
 
-            if (!env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else {
-                var options = new ExceptionHandlerOptions();
-                options.AllowStatusCode404Response = true;
-                options.ExceptionHandlingPath = "/error";
-                app.UseExceptionHandler(options);
-            }
             app.UseRouting();
             
             app.UseCors(
