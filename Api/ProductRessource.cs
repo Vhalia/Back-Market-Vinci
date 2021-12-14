@@ -1,4 +1,5 @@
 ﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Other;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,13 @@ namespace Back_Market_Vinci.Api
         public IProductDTO UpdateValidationOfProductById(string id, Product productIn)
         {
             return _productUCC.UpdateValidationOfProductById(id, productIn);
+        }
+
+        [HttpPatch]
+        [Route("/products/sell/{idProduct}/{idClient}")]
+
+        public IProductDTO SellProduct(string idProduct, string idClient) {
+            return _productUCC.SellProduct(idProduct, idClient);
         }
     }
 }

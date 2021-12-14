@@ -26,7 +26,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         {
             return _productsTable.AsQueryable().Select(p =>
                 new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
-                p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type.Value)).ToList<IProductDTO>();
+                p.SellerId, p.Adress, p.SentType.Value, p.Price.Value,p.Type.Value,p.Medias, p.BlobMedias)).ToList<IProductDTO>();
         }
 
         public IProductDTO GetProductById(string id)
@@ -36,7 +36,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             {
                 productFound = _productsTable.AsQueryable()
                     .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
-                    p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type))
+                    p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type, p.Medias, p.BlobMedias))
                     .Where(p => p.Id.Equals(id)).Single<Product>();
             }
             catch(ArgumentNullException)
@@ -49,6 +49,27 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             }
             
             return productFound;
+        }
+
+        public List<IProductDTO> GetProductBySeller(string idSeller) {
+            List<IProductDTO> productsFound = null;
+            try
+            {
+                productsFound = _productsTable.AsQueryable()
+                    .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
+                    p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type, p.Medias, p.BlobMedias))
+                    .Where(p => p.SellerId.Equals(idSeller)).ToList<IProductDTO>();
+            }
+            catch (ArgumentNullException)
+            {
+                throw new ProductNotFoundException("L'utilisateur avec l'id " + idSeller + " n'a pas été trouvé");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ProductNotFoundException("Plusieurs utilisateurs ont été trouvés avec le même id ou l'utilisateur n'a pas été trouvé");
+            }
+
+            return productsFound;
         }
 
         public IProductDTO UpdateProductById(string id, IProductDTO productIn)
@@ -75,7 +96,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             return _productsTable.AsQueryable<Product>()
                 .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value,
                 p.ReasonNotValidated, p.SellerMail, p.SellerId,
-                p.Adress, p.SentType.Value, p.Price.Value, p.Type))
+                p.Adress, p.SentType.Value, p.Price.Value, p.Type, p.Medias, p.BlobMedias))
                 .Where(p => (!p.IsValidated.Value || p.IsValidated == null) && p.ReasonNotValidated == null)
                 .ToList<IProductDTO>();
         }

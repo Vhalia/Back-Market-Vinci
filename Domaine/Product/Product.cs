@@ -40,6 +40,10 @@ namespace Back_Market_Vinci.Domaine
         [BsonRepresentation(BsonType.String)]
         public Types? Type { get; set; }
 
+        public List<UploadContentRequest> Medias { get; set; }
+
+        public List<string> BlobMedias { get; set; }
+
         public static List<string> AddressesAvailable
         {
             get
@@ -64,7 +68,7 @@ namespace Back_Market_Vinci.Domaine
 
         public Product(string id, string name, States? state, string description, Boolean? isValidated,
             string reasonNotValidated, string sellerMail, string sellerId, string adress, SentTypes? sentType,
-            int? price, Types? type)
+            int? price, Types? type, List<UploadContentRequest> medias, List<string> blobMedias)
         {
             Id = id;
             Name = name;
@@ -77,6 +81,8 @@ namespace Back_Market_Vinci.Domaine
             Adress = adress;
             SentType = sentType;
             Price = price;
+            Medias = medias;
+            BlobMedias = blobMedias;
             Type = type;
         }
     }

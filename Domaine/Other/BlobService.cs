@@ -18,17 +18,17 @@ namespace Back_Market_Vinci.Domaine.Other
             _blobServiceClient = blobServiceClient;
         
         }
-        public async Task UploadFileBlobAsync(string filePath, string fileName)
+        public async Task UploadFileBlobAsync(string filePath, string fileName, string nameOfContainer)
         {
-            var containerClient = _blobServiceClient.GetBlobContainerClient("imagecontainer");
+            var containerClient = _blobServiceClient.GetBlobContainerClient(nameOfContainer);
             var blobClient = containerClient.GetBlobClient(fileName);
             var rep = await blobClient.UploadAsync(filePath, new BlobHttpHeaders { ContentType = filePath.GetContentType() });
             
         }
 
-        public async Task UploadContentBlobAsync(string content, string fileName) {
+        public async Task UploadContentBlobAsync(string content, string fileName, string nameOfContainer) {
             
-                var containerClient = _blobServiceClient.GetBlobContainerClient("imagecontainer");
+                var containerClient = _blobServiceClient.GetBlobContainerClient(nameOfContainer);
                 var blobClient = containerClient.GetBlobClient(fileName);
                 var bytes = Convert.FromBase64String(content);
 

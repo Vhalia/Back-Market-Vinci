@@ -1,4 +1,5 @@
 ﻿using Back_Market_Vinci.Config;
+using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -30,13 +31,13 @@ namespace Back_Market_Vinci.Domaine
 
         public string Image { get; set; }
 
-        public List<String> FavTypes { get; set; }
+        public List<Types> FavTypes { get; set; }
 
-        public List<Product> Sold { get; set; }
+        public List<string> Sold { get; set; }
 
-        public List<Product> Bought { get; set; }
+        public List<string> Bought { get; set; }
 
-        public List<Product> FavProducts { get; set; }
+        public List<string> FavProducts { get; set; }
         public List<Badges> Badges { get; set; }
     }
 }
