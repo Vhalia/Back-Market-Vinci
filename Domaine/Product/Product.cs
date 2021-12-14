@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Back_Market_Vinci.Domaine
@@ -38,6 +39,28 @@ namespace Back_Market_Vinci.Domaine
         [JsonConverter(typeof(JsonStringEnumConverter))]
         [BsonRepresentation(BsonType.String)]
         public Types? Type { get; set; }
+
+        public static List<string> AddressesAvailable
+        {
+            get
+            {
+                List<string> addresses = new List<string>();
+                addresses.Add("Place de l'Alma 3, 1200 Woluwe-Saint-Lambert");
+                addresses.Add("Clos Chapelle-aux-Champs 43, 1200 Woluwe-Saint-Lambert");
+                addresses.Add("Promenade de l'Alma 59, 1200 Woluwe-Saint-Lambert");
+                addresses.Add("Place de l'Alma 2, 1200 Woluwe-Saint-Lambert");
+                addresses.Add("Chaussée de Wavre 249, 1050 Ixelles");
+                addresses.Add("Rue de Trèves 84, 1050 Ixelles");
+                addresses.Add("Rue Limauge 14, 1050 Ixelles");
+                addresses.Add("Rue d'Arlon 11, 1050 Ixelles");
+                addresses.Add("Voie Cardijn 10, 1348 Ottignies-Louvain-la-Neuve");
+                addresses.Add("Rue du Traité de Rome, 1348 Ottignies-Louvain-la-Neuve");
+                addresses.Add("Rue de l'Union européenne 4, 1348 Ottignies-Louvain-la-Neuve");
+                addresses.Add("Chemin de la Bardane 17, 1348 Ottignies-Louvain-la-Neuve");
+                addresses.Add("Rue Paulin Ladeuze 14, 1348 Ottignies-Louvain-la-Neuve");
+                return addresses;
+            }
+        }
 
         public Product(string id, string name, States? state, string description, Boolean? isValidated,
             string reasonNotValidated, User seller, string sellerId, string adress, SentTypes? sentType,

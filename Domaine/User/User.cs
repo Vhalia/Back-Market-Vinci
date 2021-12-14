@@ -32,13 +32,24 @@ namespace Back_Market_Vinci.Domaine
 
         public List<String> FavTypes { get; set; }
 
-        public List<Product> Selled { get; set; }
+        public List<Product> Sold { get; set; }
 
-        public List<Product> Buyed { get; set; }
+        public List<Product> Bought { get; set; }
 
-        public List<Product> FavProduct { get; set; }
+        public List<Product> FavProducts { get; set; }
 
         public List<Badges> Badges { get; set; }
+
+        public static List<string> CampusAvailable { 
+            get
+            {
+                List<string> campus = new List<string>();
+                campus.Add("Ixelles");
+                campus.Add("Woluwe-saint-lambert");
+                campus.Add("Louvain-la-Neuve");
+                return campus;
+            }
+        }
 
         public User(string id, string name, string surname, string mail, string campus, string password, Boolean? IsBanned, Boolean? IsAdmin, List<Ratings> Ratings) {
             this.Id = id;

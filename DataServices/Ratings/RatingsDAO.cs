@@ -1,4 +1,5 @@
 ﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Exceptions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -25,11 +26,13 @@ namespace Back_Market_Vinci.DataServices
 
         public void UpdateRatings(IRatingsDTO ratings) {
 
-            _ratingsTable.ReplaceOne<Ratings>(r => r.Id.Equals(ratings.Id), (Ratings)ratings);
+            var res = _ratingsTable.ReplaceOne<Ratings>(r => r.Id.Equals(ratings.Id), (Ratings)ratings);
+            if (!res.IsAcknowledged) throw new InternalServerError("Erreur lors de la modification des notes");
         }
 
         public void DeleteRatings(string id) {
-            _ratingsTable.DeleteOne(r => r.Id.Equals(id));
+            var res = _ratingsTable.DeleteOne(r => r.Id.Equals(id));
+            if (!res.IsAcknowledged) throw new InternalServerError("Erreur lors de la modification des notes");
         }
 
         public IRatingsDTO GetRatingsById(string id) {
