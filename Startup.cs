@@ -51,9 +51,11 @@ namespace Back_Market_Vinci
                 app.UseDeveloperExceptionPage();
             }
             else {
-                app.UseExceptionHandler("/error");
+                var options = new ExceptionHandlerOptions();
+                options.AllowStatusCode404Response = true;
+                options.ExceptionHandlingPath = "/error";
+                app.UseExceptionHandler(options);
             }
-
             app.UseRouting();
             
             app.UseCors(

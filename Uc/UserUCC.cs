@@ -2,15 +2,12 @@
 using Back_Market_Vinci.Domaine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Back_Market_Vinci.Config;
-using System.Web.Http;
-using System.Net;
-using Microsoft.AspNetCore.Builder;
 using System.Text.RegularExpressions;
+using Back_Market_Vinci.Domaine.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Back_Market_Vinci.Domaine.Other;
+using System.Linq;
 
 namespace Back_Market_Vinci.Uc
 {
@@ -44,8 +41,17 @@ namespace Back_Market_Vinci.Uc
 
         public IUserDTO Register(IUserDTO user)
         {
+            if (user.Campus == null || user.Mail == null || user.Name == null || user.Password == null
+                || user.Surname == null)
+                throw new MissingMandatoryInformationException("Il manque des informations obligatoires");
+            string pattern = "^[A-Za-z0-9.]+@+(vinci|student.vinci)+(.be)$";
+            Match match = Regex.Match(user.Mail, pattern);
+            if (!match.Success) throw new ArgumentException("Le mail ne correspond pas à un mail vinci");
+
             List<IBadgesDTO> badges = _userDAO.GetBadges();
             user.Ratings = new List<Ratings>();
+            user.FavProducts = new List<Product>();
+            user.FavTypes = new List<string>();
             user.IsAdmin = false;
             user.IsBanned = false;
             user.FavProducts = new List<Product>();
@@ -64,12 +70,13 @@ namespace Back_Market_Vinci.Uc
 
         public IUserDTO UpdateUser(IUserDTO user, string id) {
             IUserDTO userFromDB = _userDAO.GetUserById(id);
-
             IUserDTO modifiedUser = CheckNullFields<IUserDTO>.CheckNull(user, userFromDB);
-            return  _userDAO.UpdateUser(modifiedUser);
+            return _userDAO.UpdateUser(modifiedUser);
         }
 
         public IUserDTO Login(IUserDTO user) {
+            if (user.Mail == null || user.Password == null)
+                throw new MissingMandatoryInformationException("Le mail ou le mot de passe est manquant");
             IUserDTO userFromDB = _userDAO.GetUserByMail(user.Mail);
 
             if (BCrypt.Net.BCrypt.Verify(user.Password, userFromDB.Password))
@@ -82,7 +89,8 @@ namespace Back_Market_Vinci.Uc
             }
         }
         public void AddRating(IRatingsDTO ratings) {
-
+            if (ratings.IdRated == null || ratings.IdRater == null)
+                throw new MissingMandatoryInformationException("Des informations obligatoires sont manquantes");
             _ratingsDAO.AddRatings(ratings);
 
 
@@ -92,7 +100,8 @@ namespace Back_Market_Vinci.Uc
         }
 
         public void UpdateRatings(IRatingsDTO ratings) {
-
+            if (ratings.IdRated == null || ratings.IdRater == null)
+                throw new MissingMandatoryInformationException("Des informations obligatoires sont manquantes");
             IUserDTO userFromDB = _userDAO.GetUserById(ratings.IdRated);
 
 
