@@ -52,7 +52,7 @@ namespace Back_Market_Vinci.Uc
             user.Bought = new List<Product>();
             user.Sold = new List<Product>();
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
+            user.Image = "https://blobuploadimage.blob.core.windows.net/profilsimages/defaultprofil.jpg";
             user.Badges = badges.ConvertAll(b => (Badges)b);
             user.Badges.ElementAt(0).IsUnlocked = true;
             return _userDAO.Register(user);
@@ -63,6 +63,9 @@ namespace Back_Market_Vinci.Uc
         }
 
         public IUserDTO UpdateUser(IUserDTO user, string id) {
+            if (user.Password != null) {
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            }
             IUserDTO userFromDB = _userDAO.GetUserById(id);
 
             IUserDTO modifiedUser = CheckNullFields<IUserDTO>.CheckNull(user, userFromDB);
@@ -121,7 +124,7 @@ namespace Back_Market_Vinci.Uc
                 throw new ArgumentNullException("Il manque le chemin vers le fichier");
             }
             IUserDTO user = _userDAO.GetUserById(id);
-            _blobServices.UploadFileBlobAsync(image.FilePath, image.FileName);
+            _blobServices.UploadFileBlobAsync(image.FilePath, image.FileName, "profilsimages");
             user.Image = "https://blobuploadimage.blob.core.windows.net/imagecontainer/" + image.FileName;
             _userDAO.UpdateUser(user);
             return user;
@@ -137,7 +140,7 @@ namespace Back_Market_Vinci.Uc
             }
             image.Content = image.Content.Substring(image.Content.IndexOf(",") + 1);
             IUserDTO user = _userDAO.GetUserById(id);
-            _blobServices.UploadContentBlobAsync(image.Content, image.FileName);
+            _blobServices.UploadContentBlobAsync(image.Content, image.FileName, "profilsimages");
             user.Image = "https://blobuploadimage.blob.core.windows.net/imagecontainer/" + image.FileName;
             _userDAO.UpdateUser(user);
             return user;

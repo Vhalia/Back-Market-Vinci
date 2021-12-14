@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Back_Market_Vinci.Config;
 using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson.Serialization.Attributes;
@@ -29,6 +30,10 @@ namespace Back_Market_Vinci.Domaine
 
         [BsonSerializer(typeof(NullableIntAsIntSerializer))]
         public int? Price { get; set; }
+
+        public List<UploadContentRequest> Medias { get; set; }
+
+        public List<string> BlobMedias { get; set; }
 
     }
 }

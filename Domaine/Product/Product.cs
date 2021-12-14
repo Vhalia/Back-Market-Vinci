@@ -3,6 +3,7 @@ using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace Back_Market_Vinci.Domaine
 {
@@ -27,7 +28,11 @@ namespace Back_Market_Vinci.Domaine
         [BsonSerializer(typeof(NullableIntAsIntSerializer))]
         public int? Price { get; set; }
 
-        public Product(string id, string name, States state, string description, Boolean? isValidated, string reasonNotValidated, User seller, string sellerId, string adress, SentTypes sentType, int? price)
+        public List<UploadContentRequest> Medias { get; set; }
+
+        public List<string> BlobMedias { get; set; }
+
+        public Product(string id, string name, States state, string description, Boolean? isValidated, string reasonNotValidated, User seller, string sellerId, string adress, SentTypes sentType, int? price, List<UploadContentRequest> medias, List<string> blobMedias)
         {
             Id = id;
             Name = name;
@@ -40,6 +45,8 @@ namespace Back_Market_Vinci.Domaine
             Adress = adress;
             SentType = sentType;
             Price = price;
+            Medias = medias;
+            BlobMedias = blobMedias;
         }
     }
 }
