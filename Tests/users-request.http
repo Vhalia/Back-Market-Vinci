@@ -82,9 +82,8 @@ Content-Type: application/json
     "Adress": "Place de l'Alma 3, 1200 Woluwe-Saint-Lambert",
     "Description" : "yo les gars",
     "Name" : "JE SUIS LE NOM LA",
-    "Price" : 69,
     "Type" : "Loisirs",
-    "SentType" : "AVendre",
+    "SentType" : "ADonner",
     "SellerId" : "61b85d495f56381bab89f28d",
     "Medias" : [
     {
