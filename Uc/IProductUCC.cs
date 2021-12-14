@@ -14,5 +14,7 @@ namespace Back_Market_Vinci.Api
         IProductDTO CreateProduct(IProductDTO productToCreate);
         List<IProductDTO> GetProductsNotValidated();
         IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn);
+
+        IProductDTO SellProduct(string idProduct, string idClient);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Back_Market_Vinci.Config;
+using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -30,13 +31,13 @@ namespace Back_Market_Vinci.Domaine
 
         public string Image { get; set; }
 
-        public List<String> FavTypes { get; set; }
+        public List<Types> FavTypes { get; set; }
 
-        public List<Product> Sold { get; set; }
+        public List<string> Sold { get; set; }
 
-        public List<Product> Bought { get; set; }
+        public List<string> Bought { get; set; }
 
-        public List<Product> FavProducts { get; set; }
+        public List<string> FavProducts { get; set; }
 
         public List<Badges> Badges { get; set; }
 
@@ -53,8 +54,8 @@ namespace Back_Market_Vinci.Domaine
 
         public User(string id, string name, string surname,
             string mail, string campus, string password,
-            Boolean? IsBanned, Boolean? IsAdmin, List<Product> Sold,
-            List<Product> Bought, List<String> FavTypes, List<Product> FavProducts,
+            Boolean? IsBanned, Boolean? IsAdmin, List<string> Sold,
+            List<string> Bought, List<Types> FavTypes, List<string> FavProducts,
             List<Badges> Badges, string Image , List<Ratings> Ratings) {
             this.Id = id;
             this.Name = name;
