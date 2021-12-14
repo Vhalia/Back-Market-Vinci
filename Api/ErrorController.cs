@@ -25,8 +25,6 @@ namespace Back_Market_Vinci.Api
             if (exception is UserNotFoundException
                 || exception is ProductNotFoundException) code = 404;
 
-            Console.WriteLine("ICI");
-
             Response.StatusCode = code;
 
             return new ErrorResponse(exception);
