@@ -16,16 +16,19 @@ namespace Back_Market_Vinci.Uc
 
         private IProductDAO _productDAO;
         private IUserDAO _userDAO;
+        private IBlobService _blobServices;
 
-        public ProductUCC(IProductDAO productDAO, IUserDAO userDAO)
+        public ProductUCC(IProductDAO productDAO, IUserDAO userDAO, IBlobService blobServices)
         {
            this._productDAO = productDAO;
            this._userDAO = userDAO;
+            this._blobServices = blobServices;
 
         }
 
         public IProductDTO CreateProduct(IProductDTO productToCreate)
         {
+            productToCreate.BlobMedias = new List<string>();
             if (productToCreate.SellerId == null || productToCreate.Adress == null || productToCreate.Description == null
                 || productToCreate.Name == null || productToCreate.SentType == null || productToCreate.Type == null)
                 throw new MissingMandatoryInformationException("Il manque des informations obligatoires pour créer un produit");
@@ -39,7 +42,24 @@ namespace Back_Market_Vinci.Uc
 
             IUserDTO user = _userDAO.GetUserById(productToCreate.SellerId);
             if (user.IsBanned.Value) throw new UnauthorizedException("L'utilisateur est banni");
-
+            foreach (UploadContentRequest m in productToCreate.Medias)
+            {
+                if (m.Content == null)
+                {
+                    throw new ArgumentNullException("Il manque le contenu de l'image");
+                }
+                if (m.FileName == null)
+                {
+                    throw new ArgumentNullException("Il manque le nom du fichier");
+                }
+                else
+                {
+                    m.Content = m.Content.Substring(m.Content.IndexOf(",") + 1);
+                    _blobServices.UploadContentBlobAsync(m.Content, m.FileName, "produitsimages");
+                    productToCreate.BlobMedias.Add("https://blobuploadimage.blob.core.windows.net/produitsimages/" + m.FileName);
+                }
+            }
+            productToCreate.Medias = null;
             productToCreate.SellerMail = null;
             productToCreate.ReasonNotValidated = null;
             productToCreate.IsValidated = false;

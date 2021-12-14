@@ -26,7 +26,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         {
             return _productsTable.AsQueryable().Select(p =>
                 new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
-                p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type.Value)).ToList<IProductDTO>();
+                p.SellerId, p.Adress, p.SentType.Value, p.Price.Value,p.Type.Value,p.Medias, p.BlobMedias)).ToList<IProductDTO>();
         }
 
         public IProductDTO GetProductById(string id)
@@ -36,7 +36,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             {
                 productFound = _productsTable.AsQueryable()
                     .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
-                    p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type))
+                    p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type, p.Medias, p.BlobMedias))
                     .Where(p => p.Id.Equals(id)).Single<Product>();
             }
             catch(ArgumentNullException)
@@ -75,7 +75,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             return _productsTable.AsQueryable<Product>()
                 .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value,
                 p.ReasonNotValidated, p.SellerMail, p.SellerId,
-                p.Adress, p.SentType.Value, p.Price.Value, p.Type))
+                p.Adress, p.SentType.Value, p.Price.Value, p.Type, p.Medias, p.BlobMedias))
                 .Where(p => (!p.IsValidated.Value || p.IsValidated == null) && p.ReasonNotValidated == null)
                 .ToList<IProductDTO>();
         }

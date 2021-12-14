@@ -1,4 +1,5 @@
 ﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Other;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
