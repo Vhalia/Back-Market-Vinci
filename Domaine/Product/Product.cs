@@ -26,7 +26,7 @@ namespace Back_Market_Vinci.Domaine
         public string ReasonNotValidated { get ; set ; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string SellerId { get; set; }
-        public User Seller { get ; set ; }
+        public string SellerMail { get ; set ; }
         public string Adress { get ; set ; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -63,7 +63,7 @@ namespace Back_Market_Vinci.Domaine
         }
 
         public Product(string id, string name, States? state, string description, Boolean? isValidated,
-            string reasonNotValidated, User seller, string sellerId, string adress, SentTypes? sentType,
+            string reasonNotValidated, string sellerMail, string sellerId, string adress, SentTypes? sentType,
             int? price, Types? type)
         {
             Id = id;
@@ -72,7 +72,7 @@ namespace Back_Market_Vinci.Domaine
             Description = description;
             IsValidated = isValidated;
             ReasonNotValidated = reasonNotValidated;
-            Seller = seller;
+            SellerMail = sellerMail;
             SellerId = sellerId;
             Adress = adress;
             SentType = sentType;

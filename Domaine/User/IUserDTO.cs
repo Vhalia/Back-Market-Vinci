@@ -37,5 +37,6 @@ namespace Back_Market_Vinci.Domaine
         public List<Product> Bought { get; set; }
 
         public List<Product> FavProducts { get; set; }
+        public List<Badges> Badges { get; set; }
     }
 }

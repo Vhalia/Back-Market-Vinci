@@ -1,8 +1,11 @@
 ﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Other;
 using Back_Market_Vinci.Uc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Back_Market_Vinci.Api
 {
@@ -74,6 +77,19 @@ namespace Back_Market_Vinci.Api
         [Route("/users/ratings/{id}")]
         public void DeleteRatings(string id) {
             _userUCC.DeleteRatings(id);
+        }
+
+        [HttpPut]
+        [Route("/users/imagePath/{id}")]
+        public IUserDTO SetImageWithPath(UploadFileRequest image, string id ) {
+            return _userUCC.SetImageWithPath(image, id);
+        
+        }
+
+        [HttpPut]
+        [Route("/users/imageContent/{id}")]
+        public IUserDTO SetImageWithContent(UploadContentRequest image, string id) {
+            return _userUCC.SetImageWithContent(image, id);
         }
 
     }

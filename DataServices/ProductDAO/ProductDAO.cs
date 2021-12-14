@@ -25,7 +25,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         public List<IProductDTO> GetProducts()
         {
             return _productsTable.AsQueryable().Select(p =>
-                new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.Seller,
+                new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
                 p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type.Value)).ToList<IProductDTO>();
         }
 
@@ -35,7 +35,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             try
             {
                 productFound = _productsTable.AsQueryable()
-                    .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.Seller,
+                    .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value, p.ReasonNotValidated, p.SellerMail,
                     p.SellerId, p.Adress, p.SentType.Value, p.Price.Value, p.Type))
                     .Where(p => p.Id.Equals(id)).Single<Product>();
             }
@@ -45,7 +45,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             }
             catch(InvalidOperationException)
             {
-                throw new InternalServerError("Plusieurs produits ont été trouvés avec le même id ou le produit n'a pas été trouvé");
+                throw new ProductNotFoundException("Plusieurs produits ont été trouvés avec le même id ou le produit n'a pas été trouvé");
             }
             
             return productFound;
@@ -74,7 +74,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
         {
             return _productsTable.AsQueryable<Product>()
                 .Select(p => new Product(p.Id, p.Name, p.State.Value, p.Description, p.IsValidated.Value,
-                p.ReasonNotValidated, p.Seller, p.SellerId,
+                p.ReasonNotValidated, p.SellerMail, p.SellerId,
                 p.Adress, p.SentType.Value, p.Price.Value, p.Type))
                 .Where(p => (!p.IsValidated.Value || p.IsValidated == null) && p.ReasonNotValidated == null)
                 .ToList<IProductDTO>();

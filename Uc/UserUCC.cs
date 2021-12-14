@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Back_Market_Vinci.Config;
 using System.Text.RegularExpressions;
 using Back_Market_Vinci.Domaine.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Back_Market_Vinci.Domaine.Other;
+using System.Linq;
 
 namespace Back_Market_Vinci.Uc
 {
@@ -12,9 +15,11 @@ namespace Back_Market_Vinci.Uc
     {
         private IUserDAO _userDAO;
         private IRatingsDAO _ratingsDAO;
-        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO) {
+        private IBlobService _blobServices;
+        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO, IBlobService blobServices) {
             this._ratingsDAO = ratingsDAO;
             this._userDAO = userDAO;
+            this._blobServices = blobServices;
         }
         public List<IUserDTO> GetUsers()
         {
@@ -43,14 +48,19 @@ namespace Back_Market_Vinci.Uc
             Match match = Regex.Match(user.Mail, pattern);
             if (!match.Success) throw new ArgumentException("Le mail ne correspond pas à un mail vinci");
 
+            List<IBadgesDTO> badges = _userDAO.GetBadges();
             user.Ratings = new List<Ratings>();
             user.FavProducts = new List<Product>();
             user.FavTypes = new List<string>();
             user.IsAdmin = false;
             user.IsBanned = false;
-            user.Bought = null;
-            user.Sold = null;
+            user.FavProducts = new List<Product>();
+            user.Bought = new List<Product>();
+            user.Sold = new List<Product>();
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
+            user.Badges = badges.ConvertAll(b => (Badges)b);
+            user.Badges.ElementAt(0).IsUnlocked = true;
             return _userDAO.Register(user);
         }
 
@@ -69,7 +79,7 @@ namespace Back_Market_Vinci.Uc
                 throw new MissingMandatoryInformationException("Le mail ou le mot de passe est manquant");
             IUserDTO userFromDB = _userDAO.GetUserByMail(user.Mail);
 
-            if (userFromDB.Password.Equals(user.Password))
+            if (BCrypt.Net.BCrypt.Verify(user.Password, userFromDB.Password))
             {
                 return userFromDB;
             }
@@ -110,6 +120,36 @@ namespace Back_Market_Vinci.Uc
             userFromDB.Ratings.RemoveAll(r => r.Id.Equals(id));
             _userDAO.UpdateUser(userFromDB);
 
+        }
+
+        public IUserDTO SetImageWithPath(UploadFileRequest image, string id) {
+            if (image.FileName == null) {
+                throw new ArgumentNullException("Il manque le nom du fichier ");
+            }
+            if (image.FilePath == null) {
+                throw new ArgumentNullException("Il manque le chemin vers le fichier");
+            }
+            IUserDTO user = _userDAO.GetUserById(id);
+            _blobServices.UploadFileBlobAsync(image.FilePath, image.FileName);
+            user.Image = "https://blobuploadimage.blob.core.windows.net/imagecontainer/" + image.FileName;
+            _userDAO.UpdateUser(user);
+            return user;
+        }
+
+        public IUserDTO SetImageWithContent(UploadContentRequest image, string id) {
+
+            if (image.Content == null) {
+                throw new ArgumentNullException("Il manque le contenu de l'image");
+            }
+            if (image.FileName == null) {
+                throw new ArgumentNullException("Il manque le nom du fichier");
+            }
+            image.Content = image.Content.Substring(image.Content.IndexOf(",") + 1);
+            IUserDTO user = _userDAO.GetUserById(id);
+            _blobServices.UploadContentBlobAsync(image.Content, image.FileName);
+            user.Image = "https://blobuploadimage.blob.core.windows.net/imagecontainer/" + image.FileName;
+            _userDAO.UpdateUser(user);
+            return user;
         }
     }
 }

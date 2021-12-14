@@ -1,4 +1,6 @@
 ﻿using Back_Market_Vinci.Domaine;
+using Back_Market_Vinci.Domaine.Other;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +27,9 @@ namespace Back_Market_Vinci.Uc
         void UpdateRatings(IRatingsDTO ratings);
 
         void DeleteRatings(string id);
+
+        IUserDTO SetImageWithPath(UploadFileRequest image, string id);
+
+        IUserDTO SetImageWithContent(UploadContentRequest image, string id);
     }
 }

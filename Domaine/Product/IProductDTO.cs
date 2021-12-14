@@ -26,7 +26,7 @@ namespace Back_Market_Vinci.Domaine
 
         public string SellerId { get; set; }
 
-        public User Seller { get; set; }
+        public string SellerMail { get; set; }
 
         public string Adress { get; set; }
 

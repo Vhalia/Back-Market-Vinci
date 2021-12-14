@@ -1,5 +1,6 @@
 ﻿using Back_Market_Vinci.Domaine;
 using Back_Market_Vinci.Domaine.Exceptions;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -12,19 +13,28 @@ namespace Back_Market_Vinci.DataServices
     {
         private IDalServices _dalServices;
         private IMongoCollection<User> _usersTable;
+        private IMongoCollection<Badges> _badgesTable;
 
         public UserDAO(IDalServices dalServices)
         {
             this._dalServices = dalServices;
             this._usersTable = _dalServices.UsersCollection;
+            this._badgesTable = _dalServices.BadgesCollection;
         }
 
         public List<IUserDTO> GetUsers()
         {
             List<IUserDTO> allUsers = _usersTable.AsQueryable().Select(u => new User(u.Id,u.Name, u.Surname,u.Mail,
-                u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value, u.Ratings))
+                u.Campus, u.Password, u.IsBanned.Value, u.IsAdmin.Value, u.Bought,
+                u.Sold, u.FavTypes, u.FavProducts, u.Badges, u.Image, u.Ratings))
                 .ToList<IUserDTO>();
             return allUsers;
+        }
+
+        public List<IBadgesDTO> GetBadges() {
+            List<IBadgesDTO> allBadges = _badgesTable.AsQueryable().Select(b => new Badges(b.Id, b.Image, b.IsUnlocked,
+                b.Title, b.Description)).ToList<IBadgesDTO>();
+            return allBadges;
         }
 
         public IUserDTO GetUserByMail(string mail) {
@@ -32,7 +42,8 @@ namespace Back_Market_Vinci.DataServices
             try
             {
                 user = _usersTable.AsQueryable().Select(u => new User(u.Id, u.Name, u.Surname, u.Mail, u.Campus,
-                    u.Password, u.IsBanned.Value, u.IsAdmin.Value, u.Ratings))
+                    u.Password, u.IsBanned.Value, u.IsAdmin.Value, u.Bought,
+                u.Sold, u.FavTypes, u.FavProducts, u.Badges, u.Image, u.Ratings))
                     .Where(u => u.Mail.Equals(mail))
                     .Single<IUserDTO>();          
             }
@@ -42,7 +53,7 @@ namespace Back_Market_Vinci.DataServices
             }
             catch(InvalidOperationException)
             {
-                throw new InternalServerError("Plusieurs utilisateurs avec le même mail existe ou aucun utilisateur avec ce mail a été trouvé");
+                throw new UserNotFoundException("Plusieurs utilisateurs avec le même mail existe ou aucun utilisateur avec ce mail a été trouvé");
             }
             return user;
 
@@ -61,19 +72,21 @@ namespace Back_Market_Vinci.DataServices
 
         public IUserDTO GetUserById(string id)
         {
-            IUserDTO user = _usersTable.AsQueryable().FirstOrDefault(u => u.Id.Equals(id));
+            IUserDTO user = _usersTable.AsQueryable().Select(u => new User(u.Id, u.Name, u.Surname, u.Mail,
+                u.Campus, u.Password, u.IsBanned,u.IsAdmin, u.Sold,
+                u.Bought, u.FavTypes, u.FavProducts, u.Badges, u.Image, u.Ratings))
+                .Where(u => u.Id.Equals(id)).Single<IUserDTO>();
             if (user == null) throw new UserNotFoundException("L'utilisateur avec l'id " + id + " n'a pas été trouvé");
             return user;
         }
 
         public IUserDTO UpdateUser(IUserDTO modifiedUser) {
 
-            var res = _usersTable.ReplaceOne<User>(u => u.Id.Equals(modifiedUser.Id), (User)modifiedUser);
-            if (!res.IsAcknowledged) throw new InternalServerError("Erreur lors de la mise à jour de l'utilisateur");
+            IUserDTO userModified = _usersTable.FindOneAndReplace<User>(u => u.Id.Equals(modifiedUser.Id), (User)modifiedUser);
+            if (userModified == null) throw new UserNotFoundException("L'utilisateur avec l'id " + modifiedUser.Id + " n'a pas été trouvé");
             return modifiedUser;
 
         }
-
 
     }
 }

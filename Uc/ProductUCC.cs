@@ -36,10 +36,15 @@ namespace Back_Market_Vinci.Uc
                 throw new MissingMandatoryInformationException("Un produit en vente doit avoir un prix supérieur à 0");
             if (!Product.AddressesAvailable.Contains(productToCreate.Adress))
                 throw new ArgumentException("L'adresse du produit n'est pas correcte");
+
+            IUserDTO user = _userDAO.GetUserById(productToCreate.SellerId);
+            if (user.IsBanned.Value) throw new UnauthorizedException("L'utilisateur est banni");
+
+            productToCreate.SellerMail = null;
             productToCreate.ReasonNotValidated = null;
             productToCreate.IsValidated = false;
             IProductDTO productCreated = _productDAO.CreateProduct((Product)productToCreate);
-            AddSellerToProduct(productCreated);
+            productCreated.SellerMail = user.Mail;
             return productCreated;
         }
 
@@ -51,7 +56,8 @@ namespace Back_Market_Vinci.Uc
         public IProductDTO GetProductById(string id)
         {
             IProductDTO productFromDb = _productDAO.GetProductById(id);
-            AddSellerToProduct(productFromDb);
+            IUserDTO user = _userDAO.GetUserById(productFromDb.SellerId);
+            productFromDb.SellerMail = user.Mail;
             return productFromDb;
         }
 
@@ -60,8 +66,13 @@ namespace Back_Market_Vinci.Uc
             List<IProductDTO> productsDTO = _productDAO.GetProducts();
             for (var i = 0; i < productsDTO.Count; i++)
             {
-                AddSellerToProduct(productsDTO[i]);
-                if (productsDTO[i].Seller.IsBanned.Value) productsDTO.Remove(productsDTO[i]);
+                IUserDTO user = _userDAO.GetUserById(productsDTO[i].SellerId);
+                productsDTO[i].SellerMail = user.Mail;
+                if (user.IsBanned.Value)
+                {
+                    productsDTO.Remove(productsDTO[i]);
+                    i--;
+                }
             }
             return productsDTO;
         }
@@ -71,7 +82,8 @@ namespace Back_Market_Vinci.Uc
             List<IProductDTO> productsNotValidatedDb = _productDAO.GetProductsNotValidated();
             foreach (IProductDTO product in productsNotValidatedDb)
             {
-                AddSellerToProduct(product);
+                IUserDTO user = _userDAO.GetUserById(product.SellerId);
+                product.SellerMail = user.Mail;
             }
             return productsNotValidatedDb;
         }
@@ -81,7 +93,7 @@ namespace Back_Market_Vinci.Uc
             if (productIn.Adress != null && !Product.AddressesAvailable.Contains(productIn.Adress))
                 throw new ArgumentException("L'adresse n'est pas correcte");
             productIn.State = null;
-            productIn.Seller = null;
+            productIn.SellerMail = null;
             productIn.ReasonNotValidated = null;
             productIn.IsValidated = null;
             IProductDTO productDb = _productDAO.GetProductById(id);
@@ -94,7 +106,8 @@ namespace Back_Market_Vinci.Uc
                 throw new MissingMandatoryInformationException("Un produit en vente doit avoir un prix supérieur à 0");
 
             IProductDTO productUpdated = _productDAO.UpdateProductById(id, productToBeUpdated);
-            AddSellerToProduct(productUpdated);
+            IUserDTO user = _userDAO.GetUserById(productUpdated.SellerId);
+            productUpdated.SellerMail = user.Mail;
             return productUpdated;
         }
 
@@ -104,17 +117,10 @@ namespace Back_Market_Vinci.Uc
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
             if (productIn.IsValidated.Value) productToBeUpdated.ReasonNotValidated = null;
             IProductDTO productUpdated = _productDAO.UpdateValidationOfProductById(id, productToBeUpdated);
-            AddSellerToProduct(productUpdated);
-            if (productUpdated.Seller.IsAdmin == null || !productUpdated.Seller.IsAdmin.Value)
-                throw new UnauthorizedException("Vous n'avez pas le droit de modifier la validité d'un produit");
+            IUserDTO user = _userDAO.GetUserById(productUpdated.SellerId);
+            productUpdated.SellerMail = user.Mail;
             return productUpdated;
         }
 
-        private void AddSellerToProduct(IProductDTO product)
-        {
-            IUserDTO user = _userDAO.GetUserById(product.SellerId);
-            if (user == null) throw new UserNotFoundException("L'utilisateur avec l'id " + product.SellerId + " n'a pas été trouvé");
-            product.Seller = (User)user;
-        }
     }
 }
