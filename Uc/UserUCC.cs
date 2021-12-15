@@ -16,10 +16,12 @@ namespace Back_Market_Vinci.Uc
         private IUserDAO _userDAO;
         private IRatingsDAO _ratingsDAO;
         private IBlobService _blobServices;
-        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO, IBlobService blobServices) {
+        private IProductDAO _productDAO;
+        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO, IBlobService blobServices, IProductDAO productDAO) {
             this._ratingsDAO = ratingsDAO;
             this._userDAO = userDAO;
             this._blobServices = blobServices;
+            this._productDAO = productDAO;
         }
         public List<IUserDTO> GetUsers()
         {
@@ -153,6 +155,15 @@ namespace Back_Market_Vinci.Uc
             user.Image = "https://blobuploadimage.blob.core.windows.net/profilsimages/" + image.FileName;
             _userDAO.UpdateUser(user);
             return user;
+        }
+
+        public List<IProductDTO> GetBoughtProduct(string id) {
+            IUserDTO userFromDB = _userDAO.GetUserById(id);
+            List<IProductDTO> list = new List<IProductDTO>();
+            foreach (string productid in userFromDB.Bought) {
+                list.Add(_productDAO.GetProductById(productid));
+            }
+            return list;
         }
     }
 }
