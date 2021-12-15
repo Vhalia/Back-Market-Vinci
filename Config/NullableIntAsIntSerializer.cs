@@ -28,7 +28,8 @@ namespace Back_Market_Vinci.Config
             var type = context.Reader.GetCurrentBsonType();
             switch (type) {
 
-                case BsonType.Null: 
+                case BsonType.Null:
+                    context.Reader.ReadNull();
                     return null;
                 case BsonType.Int32:
                     return context.Reader.ReadInt32();

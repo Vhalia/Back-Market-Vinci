@@ -32,6 +32,7 @@ namespace Back_Market_Vinci.Config
             {
 
                 case BsonType.Null:
+                    context.Reader.ReadNull();
                     return null;
                 case BsonType.Boolean:
                     return context.Reader.ReadBoolean();
