@@ -3,9 +3,9 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-"Name":"le roi des badges",
-"Surname":"sisi c est lui",
-"Mail":"leroi@vinci.be",
+"Name":"Bernard",
+"Surname":"Dupont",
+"Mail":"bernard@student.vinci.be",
 "Campus":"Clos Chapelle-aux-Champs 43, 1200 Woluwe-Saint-Lambert",
 "Password":"dragon"
 }
@@ -80,11 +80,12 @@ Content-Type: application/json
 
 {
     "Adress": "Place de l'Alma 3, 1200 Woluwe-Saint-Lambert",
-    "Description" : "yo les gars",
-    "Name" : "JE SUIS LE NOM LA",
-    "Type" : "Loisirs",
-    "SentType" : "ADonner",
-    "SellerId" : "61b8961381180e04240fc1de"
+    "Description" : "meuble antique de l'age de pierre",
+    "Name" : "Meuble a vendre",
+    "Type" : "Maison",
+    "SentType" : "AVendre",
+    "Price" : 87,
+    "SellerId" : "61b85d495f56381bab89f28d"
 }
 
 ###

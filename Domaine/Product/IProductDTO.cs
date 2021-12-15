@@ -46,5 +46,9 @@ namespace Back_Market_Vinci.Domaine
         [BsonRepresentation(BsonType.String)]
         public Types? Type { get; set; }
 
+        public UploadContentRequest Video { get; set; }
+
+        public string BlobVideo { get; set; }
+
     }
 }

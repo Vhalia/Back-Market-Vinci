@@ -44,6 +44,10 @@ namespace Back_Market_Vinci.Domaine
 
         public List<string> BlobMedias { get; set; }
 
+        public UploadContentRequest Video { get; set; }
+
+        public string BlobVideo { get; set; }
+
         public static List<string> AddressesAvailable
         {
             get
@@ -68,7 +72,7 @@ namespace Back_Market_Vinci.Domaine
 
         public Product(string id, string name, States? state, string description, Boolean? isValidated,
             string reasonNotValidated, string sellerMail, string sellerId, string adress, SentTypes? sentType,
-            int? price, Types? type, List<UploadContentRequest> medias, List<string> blobMedias)
+            int? price, Types? type, List<UploadContentRequest> medias, List<string> blobMedias, UploadContentRequest video, string blobVideo)
         {
             Id = id;
             Name = name;
@@ -84,6 +88,8 @@ namespace Back_Market_Vinci.Domaine
             Medias = medias;
             BlobMedias = blobMedias;
             Type = type;
+            Video = video;
+            BlobVideo = blobVideo;
         }
     }
 }

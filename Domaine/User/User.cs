@@ -20,7 +20,6 @@ namespace Back_Market_Vinci.Domaine
         public string Mail { get; set; }
 
         public string Campus { get; set; }
-        
         public string Password { get; set; }
         [BsonSerializer(typeof(NullableBooleanAsBooleanSerializer))]
         public Boolean? IsBanned { get; set; }
@@ -32,11 +31,11 @@ namespace Back_Market_Vinci.Domaine
         public string Image { get; set; }
 
         public List<Types> FavTypes { get; set; }
-
+        [JsonIgnore]
         public List<string> Sold { get; set; }
-
+        [JsonIgnore]
         public List<string> Bought { get; set; }
-
+        [JsonIgnore]
         public List<string> FavProducts { get; set; }
 
         public List<Badges> Badges { get; set; }
