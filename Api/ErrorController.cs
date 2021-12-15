@@ -21,7 +21,8 @@ namespace Back_Market_Vinci.Api
             if (exception is UnauthorizedAccessException 
                 || exception is UnauthorizedException) code = 401;
             if (exception is ArgumentException 
-                || exception is MissingMandatoryInformationException) code = 400;
+                || exception is MissingMandatoryInformationException
+                || exception is WrongStateException) code = 400;
             if (exception is UserNotFoundException
                 || exception is ProductNotFoundException) code = 404;
 

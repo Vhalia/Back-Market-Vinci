@@ -172,6 +172,9 @@ namespace Back_Market_Vinci.Uc
             IUserDTO clientDB = _userDAO.GetUserById(idClient);
             IUserDTO sellerDB = _userDAO.GetUserById(productDB.SellerId);
             sellerDB.Sold.Add(idProduct);
+            if (productDB.State != States.EnLigne) {
+                throw new WrongStateException("Le produit doit etre en ligne pour pouvoir etre vendus");
+            }
 
             var numberProductSold = sellerDB.Sold.Count;
             if (numberProductSold == 1)
@@ -219,8 +222,6 @@ namespace Back_Market_Vinci.Uc
             }
             
             productDB.State = States.Envoye;
-            Console.WriteLine(productDB.State);
-            Console.WriteLine(States.Envoye);
             _userDAO.UpdateUser(clientDB);
             _userDAO.UpdateUser(sellerDB);
             _productDAO.UpdateProductById(idProduct, productDB);

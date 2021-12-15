@@ -74,7 +74,6 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
 
         public IProductDTO UpdateProductById(string id, IProductDTO productIn)
         {
-            Console.WriteLine(productIn.State);
             IProductDTO productModified = _productsTable.FindOneAndReplace<Product>(p => p.Id.Equals(id), (Product)productIn);
             if (productModified == null) throw new ProductNotFoundException("Le produit avec l'id " + id + " n'a pas été trouvé");
             return productIn;
