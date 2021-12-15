@@ -154,7 +154,13 @@ namespace Back_Market_Vinci.Uc
         {
             Product productDb =(Product) _productDAO.GetProductById(id);
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
-            if (productIn.IsValidated.Value) productToBeUpdated.ReasonNotValidated = null;
+            if (productIn.IsValidated.Value) {
+                productToBeUpdated.ReasonNotValidated = null;
+                productToBeUpdated.State = States.EnLigne;
+            }else
+            {
+                productToBeUpdated.State = States.Refuse;
+            }
             IProductDTO productUpdated = _productDAO.UpdateValidationOfProductById(id, productToBeUpdated);
             IUserDTO user = _userDAO.GetUserById(productUpdated.SellerId);
             productUpdated.SellerMail = user.Mail;
