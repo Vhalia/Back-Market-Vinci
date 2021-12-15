@@ -165,5 +165,25 @@ namespace Back_Market_Vinci.Uc
             }
             return list;
         }
+
+        public List<IProductDTO> GetSoldProduct(string id) {
+            IUserDTO userFromDB = _userDAO.GetUserById(id);
+            List<IProductDTO> list = new List<IProductDTO>();
+            foreach (string productid in userFromDB.Sold)
+            {
+                list.Add(_productDAO.GetProductById(productid));
+            }
+            return list;
+        }
+
+        public List<IProductDTO> GetFavProduct(string id) {
+            IUserDTO userFromDB = _userDAO.GetUserById(id);
+            List<IProductDTO> list = new List<IProductDTO>();
+            foreach (string productid in userFromDB.FavProducts)
+            {
+                list.Add(_productDAO.GetProductById(productid));
+            }
+            return list;
+        }
     }
 }

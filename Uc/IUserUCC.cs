@@ -33,5 +33,9 @@ namespace Back_Market_Vinci.Uc
         IUserDTO SetImageWithContent(UploadContentRequest image, string id);
 
         List<IProductDTO> GetBoughtProduct(string id);
+
+        List<IProductDTO> GetSoldProduct(string id);
+
+        List<IProductDTO> GetFavProduct(string id);
     }
 }

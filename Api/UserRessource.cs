@@ -99,5 +99,17 @@ namespace Back_Market_Vinci.Api
             return _userUCC.GetBoughtProduct(id);
         }
 
+        [HttpGet]
+        [Route("users/soldProduct/{id}")]
+
+        public List<IProductDTO> GetSoldProduct(string id) {
+            return _userUCC.GetSoldProduct(id);
+        }
+
+        [HttpGet]
+        [Route("users/favProduct/{id}")]
+        public List<IProductDTO> GetFavProduct(string id) { 
+            return _userUCC.GetFavProduct(id);
+        }
     }
 }

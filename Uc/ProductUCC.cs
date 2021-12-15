@@ -64,6 +64,10 @@ namespace Back_Market_Vinci.Uc
             productToCreate.SellerMail = null;
             productToCreate.ReasonNotValidated = null;
             productToCreate.IsValidated = false;
+            if (productToCreate.BlobMedias.Count == 0) {
+                productToCreate.BlobMedias.Add("https://blobuploadimage.blob.core.windows.net/produitsimages/defaultproduct.png");
+            }
+            
             IProductDTO productCreated = _productDAO.CreateProduct((Product)productToCreate);
             productCreated.SellerMail = user.Mail;
             List<IProductDTO> toSell = _productDAO.GetProductBySeller(productToCreate.SellerId);
