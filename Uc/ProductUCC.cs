@@ -152,7 +152,7 @@ namespace Back_Market_Vinci.Uc
 
         public IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn)
         {
-            Product productDb =(Product) _productDAO.GetProductById(id);
+            IProductDTO productDb = _productDAO.GetProductById(id);
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
             if (productIn.IsValidated.Value) {
                 productToBeUpdated.ReasonNotValidated = null;

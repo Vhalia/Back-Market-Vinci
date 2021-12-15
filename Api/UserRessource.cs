@@ -92,5 +92,12 @@ namespace Back_Market_Vinci.Api
             return _userUCC.SetImageWithContent(image, id);
         }
 
+        [HttpGet]
+        [Route("/users/boughtProduct/{id}")]
+
+        public List<IProductDTO> GetBoughtProduct(string id) {
+            return _userUCC.GetBoughtProduct(id);
+        }
+
     }
 }
