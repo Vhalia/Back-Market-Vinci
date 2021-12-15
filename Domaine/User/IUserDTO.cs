@@ -3,7 +3,7 @@ using Back_Market_Vinci.Domaine.Other;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-
+using System.Text.Json.Serialization;
 
 namespace Back_Market_Vinci.Domaine
 {
@@ -19,6 +19,7 @@ namespace Back_Market_Vinci.Domaine
 
         public string Campus { get; set; }
 
+        [JsonIgnore]
         public string Password { get; set; }
 
         [BsonSerializer(typeof(NullableBooleanAsBooleanSerializer))]
@@ -33,11 +34,13 @@ namespace Back_Market_Vinci.Domaine
 
         public List<Types> FavTypes { get; set; }
 
+        [JsonIgnore]
         public List<string> Sold { get; set; }
-
+        [JsonIgnore]
         public List<string> Bought { get; set; }
-
+        [JsonIgnore]
         public List<string> FavProducts { get; set; }
         public List<Badges> Badges { get; set; }
+
     }
 }

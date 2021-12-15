@@ -32,6 +32,7 @@ namespace Back_Market_Vinci.Uc
         public IProductDTO CreateProduct(IProductDTO productToCreate)
         {
             productToCreate.BlobMedias = new List<string>();
+            productToCreate.BlobVideo = "";
             if (productToCreate.SellerId == null || productToCreate.Adress == null || productToCreate.Description == null
                 || productToCreate.Name == null || productToCreate.SentType == null || productToCreate.Type == null)
                 throw new MissingMandatoryInformationException("Il manque des informations obligatoires pour créer un produit");
@@ -65,8 +66,13 @@ namespace Back_Market_Vinci.Uc
                 }
 
             }
+            if (productToCreate.Video != null) {
+                productToCreate.Video.Content = productToCreate.Video.Content.Substring(productToCreate.Video.Content.IndexOf(",") + 1);
+                _blobServices.UploadContentBlobAsync(productToCreate.Video.Content, productToCreate.Video.FileName, "produitsvideos");
+                productToCreate.BlobVideo = ("https://blobuploadimage.blob.core.windows.net/produitsvideos/" + productToCreate.Video.FileName);
+            }
 
-
+            productToCreate.Video = null;
             productToCreate.Medias = null;
             productToCreate.SellerMail = null;
             productToCreate.ReasonNotValidated = null;
