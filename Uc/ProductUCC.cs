@@ -4,6 +4,7 @@ using Back_Market_Vinci.DataServices;
 using Back_Market_Vinci.Domaine;
 using Back_Market_Vinci.Domaine.Exceptions;
 using Back_Market_Vinci.Domaine.Other;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace Back_Market_Vinci.Uc
         private IProductDAO _productDAO;
         private IUserDAO _userDAO;
         private IBlobService _blobServices;
+        public IConfiguration Configuration { get; }
 
-        public ProductUCC(IProductDAO productDAO, IUserDAO userDAO, IBlobService blobServices)
+        public ProductUCC(IProductDAO productDAO, IUserDAO userDAO, IBlobService blobServices, IConfiguration conf)
         {
            this._productDAO = productDAO;
            this._userDAO = userDAO;
-            this._blobServices = blobServices;
+           this._blobServices = blobServices;
+           this.Configuration = conf;
 
         }
 
@@ -42,28 +45,36 @@ namespace Back_Market_Vinci.Uc
 
             IUserDTO user = _userDAO.GetUserById(productToCreate.SellerId);
             if (user.IsBanned.Value) throw new UnauthorizedException("L'utilisateur est banni");
-            foreach (UploadContentRequest m in productToCreate.Medias)
-            {
-                if (m.Content == null)
+            if (productToCreate.Medias != null) {
+                foreach (UploadContentRequest m in productToCreate.Medias)
                 {
-                    throw new ArgumentNullException("Il manque le contenu de l'image");
+                    if (m.Content == null)
+                    {
+                        throw new ArgumentNullException("Il manque le contenu de l'image");
+                    }
+                    if (m.FileName == null)
+                    {
+                        throw new ArgumentNullException("Il manque le nom du fichier");
+                    }
+                    else
+                    {
+                        m.Content = m.Content.Substring(m.Content.IndexOf(",") + 1);
+                        _blobServices.UploadContentBlobAsync(m.Content, m.FileName, "produitsimages");
+                        productToCreate.BlobMedias.Add("https://blobuploadimage.blob.core.windows.net/produitsimages/" + m.FileName);
+                    }
                 }
-                if (m.FileName == null)
-                {
-                    throw new ArgumentNullException("Il manque le nom du fichier");
-                }
-                else
-                {
-                    m.Content = m.Content.Substring(m.Content.IndexOf(",") + 1);
-                    _blobServices.UploadContentBlobAsync(m.Content, m.FileName, "produitsimages");
-                    productToCreate.BlobMedias.Add("https://blobuploadimage.blob.core.windows.net/produitsimages/" + m.FileName);
-                }
+
             }
+
 
             productToCreate.Medias = null;
             productToCreate.SellerMail = null;
             productToCreate.ReasonNotValidated = null;
             productToCreate.IsValidated = false;
+            if (productToCreate.BlobMedias.Count == 0) {
+                productToCreate.BlobMedias.Add(Configuration["AzureBlobProperties:DefaultProductImage"]);
+            }
+            
             IProductDTO productCreated = _productDAO.CreateProduct((Product)productToCreate);
             productCreated.SellerMail = user.Mail;
             List<IProductDTO> toSell = _productDAO.GetProductBySeller(productToCreate.SellerId);
