@@ -20,7 +20,6 @@ namespace Back_Market_Vinci.Domaine
         public string Mail { get; set; }
 
         public string Campus { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
         [BsonSerializer(typeof(NullableBooleanAsBooleanSerializer))]
         public Boolean? IsBanned { get; set; }

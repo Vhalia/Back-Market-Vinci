@@ -3,9 +3,9 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-"Name":"le roi des badges",
-"Surname":"sisi c est lui",
-"Mail":"leroi@vinci.be",
+"Name":"Bernard",
+"Surname":"Dupont",
+"Mail":"bernard@student.vinci.be",
 "Campus":"Clos Chapelle-aux-Champs 43, 1200 Woluwe-Saint-Lambert",
 "Password":"dragon"
 }
