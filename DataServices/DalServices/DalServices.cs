@@ -14,7 +14,10 @@ namespace Back_Market_Vinci.DataServices
 
         private IMongoDatabase Database {
             get {
-                var client = new MongoClient(Configuration["DatabaseProperties:ConnectionString"]);
+                string connectionString = Configuration["ConnectionStringProd"];
+                if (connectionString == null)
+                    connectionString = Configuration["ConnectionStringDev"];
+                var client = new MongoClient(connectionString);
                 return client.GetDatabase(Configuration["DatabaseProperties:DatabaseName"]);
             }
         }
