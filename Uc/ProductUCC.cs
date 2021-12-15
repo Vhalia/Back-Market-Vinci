@@ -45,23 +45,27 @@ namespace Back_Market_Vinci.Uc
 
             IUserDTO user = _userDAO.GetUserById(productToCreate.SellerId);
             if (user.IsBanned.Value) throw new UnauthorizedException("L'utilisateur est banni");
-            foreach (UploadContentRequest m in productToCreate.Medias)
-            {
-                if (m.Content == null)
+            if (productToCreate.Medias != null) {
+                foreach (UploadContentRequest m in productToCreate.Medias)
                 {
-                    throw new ArgumentNullException("Il manque le contenu de l'image");
+                    if (m.Content == null)
+                    {
+                        throw new ArgumentNullException("Il manque le contenu de l'image");
+                    }
+                    if (m.FileName == null)
+                    {
+                        throw new ArgumentNullException("Il manque le nom du fichier");
+                    }
+                    else
+                    {
+                        m.Content = m.Content.Substring(m.Content.IndexOf(",") + 1);
+                        _blobServices.UploadContentBlobAsync(m.Content, m.FileName, "produitsimages");
+                        productToCreate.BlobMedias.Add("https://blobuploadimage.blob.core.windows.net/produitsimages/" + m.FileName);
+                    }
                 }
-                if (m.FileName == null)
-                {
-                    throw new ArgumentNullException("Il manque le nom du fichier");
-                }
-                else
-                {
-                    m.Content = m.Content.Substring(m.Content.IndexOf(",") + 1);
-                    _blobServices.UploadContentBlobAsync(m.Content, m.FileName, "produitsimages");
-                    productToCreate.BlobMedias.Add("https://blobuploadimage.blob.core.windows.net/produitsimages/" + m.FileName);
-                }
+
             }
+
 
             productToCreate.Medias = null;
             productToCreate.SellerMail = null;
