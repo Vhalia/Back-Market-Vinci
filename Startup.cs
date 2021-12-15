@@ -29,8 +29,6 @@ namespace Back_Market_Vinci
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine(Configuration.GetValue<string>("AzureBlobStorageConnectionString"));
-            Console.WriteLine(Configuration.GetValue<string>("ConnectionStringDev"));
             services.AddCors();
             services.AddControllers();
             services.AddSingleton<IDalServices, DalServices>();
