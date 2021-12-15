@@ -4,6 +4,7 @@ using Back_Market_Vinci.DataServices;
 using Back_Market_Vinci.Domaine;
 using Back_Market_Vinci.Domaine.Exceptions;
 using Back_Market_Vinci.Domaine.Other;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace Back_Market_Vinci.Uc
         private IProductDAO _productDAO;
         private IUserDAO _userDAO;
         private IBlobService _blobServices;
+        public IConfiguration Configuration { get; }
 
-        public ProductUCC(IProductDAO productDAO, IUserDAO userDAO, IBlobService blobServices)
+        public ProductUCC(IProductDAO productDAO, IUserDAO userDAO, IBlobService blobServices, IConfiguration conf)
         {
            this._productDAO = productDAO;
            this._userDAO = userDAO;
-            this._blobServices = blobServices;
+           this._blobServices = blobServices;
+           this.Configuration = conf;
 
         }
 
@@ -65,7 +68,7 @@ namespace Back_Market_Vinci.Uc
             productToCreate.ReasonNotValidated = null;
             productToCreate.IsValidated = false;
             if (productToCreate.BlobMedias.Count == 0) {
-                productToCreate.BlobMedias.Add("https://blobuploadimage.blob.core.windows.net/produitsimages/defaultproduct.png");
+                productToCreate.BlobMedias.Add(Configuration["AzureBlobProperties:DefaultProductImage"]);
             }
             
             IProductDTO productCreated = _productDAO.CreateProduct((Product)productToCreate);

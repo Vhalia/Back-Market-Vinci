@@ -8,6 +8,7 @@ using Back_Market_Vinci.Domaine.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Back_Market_Vinci.Domaine.Other;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Back_Market_Vinci.Uc
 {
@@ -17,11 +18,13 @@ namespace Back_Market_Vinci.Uc
         private IRatingsDAO _ratingsDAO;
         private IBlobService _blobServices;
         private IProductDAO _productDAO;
-        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO, IBlobService blobServices, IProductDAO productDAO) {
+        public IConfiguration Configuration { get; }
+        public UserUCC(IUserDAO userDAO, IRatingsDAO ratingsDAO, IBlobService blobServices, IProductDAO productDAO, IConfiguration conf) {
             this._ratingsDAO = ratingsDAO;
             this._userDAO = userDAO;
             this._blobServices = blobServices;
             this._productDAO = productDAO;
+            this.Configuration = conf;
         }
         public List<IUserDTO> GetUsers()
         {
@@ -60,7 +63,7 @@ namespace Back_Market_Vinci.Uc
             user.Bought = new List<string>();
             user.Sold = new List<string>();
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            user.Image = "https://blobuploadimage.blob.core.windows.net/profilsimages/defaultprofil.jpg";
+            user.Image = Configuration["AzureBlobProperties:DefaultProfilImage"];
             user.Badges = badges.ConvertAll(b => (Badges)b);
             user.Badges.ElementAt(0).IsUnlocked = true;
             return _userDAO.Register(user);
