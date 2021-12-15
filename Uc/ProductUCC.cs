@@ -152,7 +152,7 @@ namespace Back_Market_Vinci.Uc
 
         public IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn)
         {
-            IProductDTO productDb = _productDAO.GetProductById(id);
+            Product productDb =(Product) _productDAO.GetProductById(id);
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
             if (productIn.IsValidated.Value) {
                 productToBeUpdated.ReasonNotValidated = null;
@@ -170,9 +170,12 @@ namespace Back_Market_Vinci.Uc
         public IProductDTO SellProduct(string idProduct, string idClient) {
             IProductDTO productDB = _productDAO.GetProductById(idProduct);
             IUserDTO clientDB = _userDAO.GetUserById(idClient);
-            IUserDTO sellerDB = _userDAO.GetUserByMail(productDB.SellerMail);
-
+            IUserDTO sellerDB = _userDAO.GetUserById(productDB.SellerId);
             sellerDB.Sold.Add(idProduct);
+            if (productDB.State != States.EnLigne) {
+                throw new WrongStateException("Le produit doit etre en ligne pour pouvoir etre vendus");
+            }
+
             var numberProductSold = sellerDB.Sold.Count;
             if (numberProductSold == 1)
             {
@@ -217,10 +220,8 @@ namespace Back_Market_Vinci.Uc
                     sellerDB.Badges.ElementAt(8).IsUnlocked = true;
                 }
             }
-
             
             productDB.State = States.Envoye;
-
             _userDAO.UpdateUser(clientDB);
             _userDAO.UpdateUser(sellerDB);
             _productDAO.UpdateProductById(idProduct, productDB);

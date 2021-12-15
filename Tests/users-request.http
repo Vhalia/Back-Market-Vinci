@@ -96,3 +96,7 @@ Content-Type: application/json
     }]
 
 }
+
+###
+PATCH http://localhost:5000/products/sell/61b8b8f1d221cf318aa9bf22/61b85d495f56381bab89f28d
+
