@@ -15,6 +15,6 @@ namespace Back_Market_Vinci.DataServices
         public void DeleteUser(string id);
         public IUserDTO GetUserById(string id);
         public IUserDTO UpdateUser(IUserDTO modifiedUser);
-
+        List<IProductDTO> GetAllProductsPendingOfSeller(string idSeller);
     }
 }

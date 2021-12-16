@@ -235,6 +235,5 @@ namespace Back_Market_Vinci.Uc
             
             return productDB;
         }
-
     }
 }

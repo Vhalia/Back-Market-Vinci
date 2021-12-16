@@ -52,7 +52,8 @@ namespace Back_Market_Vinci.Uc
             string pattern = "^[A-Za-z0-9.]+@+(vinci|student.vinci)+(.be)$";
             Match match = Regex.Match(user.Mail, pattern);
             if (!match.Success) throw new ArgumentException("Le mail ne correspond pas à un mail vinci");
-
+            if (!User.CampusAvailable.Contains(user.Campus))
+                throw new ArgumentException("Le campus " + user.Campus + " n'est pas correcte");
             List<IBadgesDTO> badges = _userDAO.GetBadges();
             user.Ratings = new List<Ratings>();
             user.FavProducts = new List<string>();
@@ -197,6 +198,13 @@ namespace Back_Market_Vinci.Uc
             List<IUserDTO> users = _userDAO.GetUsers();
             List<string> emails = users.Where(u => !u.IsBanned.Value).Select(u => u.Mail).ToList<string>();
             return emails;
+        }
+
+        public List<IProductDTO> GetAllProductsPendingOfSeller(string idSeller)
+        {
+            IUserDTO seller = _userDAO.GetUserById(idSeller);
+            if (seller.IsBanned.Value) throw new UnauthorizedException("L'utilisateur est banni");
+            return _userDAO.GetAllProductsPendingOfSeller(idSeller);
         }
     }
 }
