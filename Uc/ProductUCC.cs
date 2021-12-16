@@ -153,7 +153,7 @@ namespace Back_Market_Vinci.Uc
                 throw new ArgumentException("Un produit à donner ou à échanger ne peut pas avoir de prix");
             if (productToBeUpdated.SentType == SentTypes.AVendre && (productToBeUpdated.Price == null || productToBeUpdated.Price == 0))
                 throw new MissingMandatoryInformationException("Un produit en vente doit avoir un prix supérieur à 0");
-
+            productToBeUpdated.State = States.EnAttente;
             IProductDTO productUpdated = _productDAO.UpdateProductById(id, productToBeUpdated);
             return productUpdated;
         }
