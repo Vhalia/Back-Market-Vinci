@@ -106,6 +106,10 @@ namespace Back_Market_Vinci.Uc
 
         public void DeleteProductById(string id)
         {
+            IProductDTO productFromDB = _productDAO.GetProductById(id);
+            if (productFromDB.State == States.Envoye) {
+                throw new UnauthorizedException("Vous ne pouvez pas supprimer un produit vendu");
+            }
             _productDAO.DeleteProductById(id);
         }
 
