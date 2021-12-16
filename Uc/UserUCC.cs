@@ -191,5 +191,12 @@ namespace Back_Market_Vinci.Uc
             }
             return list;
         }
+
+        public List<string> GetAllMails()
+        {
+            List<IUserDTO> users = _userDAO.GetUsers();
+            List<string> emails = users.Where(u => !u.IsBanned.Value).Select(u => u.Mail).ToList<string>();
+            return emails;
+        }
     }
 }
