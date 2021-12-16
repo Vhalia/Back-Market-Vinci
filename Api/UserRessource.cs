@@ -116,5 +116,12 @@ namespace Back_Market_Vinci.Api
         public List<IProductDTO> GetFavProduct(string id) { 
             return _userUCC.GetFavProduct(id);
         }
+
+        [HttpGet]
+        [Route("/users/{idSeller}/pending")]
+        public List<IProductDTO> GetAllProductsPendingOfSeller(string idSeller)
+        {
+            return _userUCC.GetAllProductsPendingOfSeller(idSeller);
+        }
     }
 }

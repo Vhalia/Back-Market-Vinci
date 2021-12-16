@@ -74,10 +74,10 @@ namespace Back_Market_Vinci.Uc
 
             productToCreate.Video = null;
             productToCreate.Medias = null;
-            productToCreate.SellerMail = null;
             productToCreate.ReasonNotValidated = null;
             productToCreate.IsValidated = false;
             productToCreate.State = States.EnAttente;
+            productToCreate.SellerMail = user.Mail;
             if (productToCreate.BlobMedias.Count == 0) {
                 productToCreate.BlobMedias.Add(Configuration["AzureBlobProperties:DefaultProductImage"]);
             }
@@ -113,8 +113,6 @@ namespace Back_Market_Vinci.Uc
         public IProductDTO GetProductById(string id)
         {
             IProductDTO productFromDb = _productDAO.GetProductById(id);
-            IUserDTO user = _userDAO.GetUserById(productFromDb.SellerId);
-            productFromDb.SellerMail = user.Mail;
             return productFromDb;
         }
 
@@ -124,7 +122,6 @@ namespace Back_Market_Vinci.Uc
             for (var i = 0; i < productsDTO.Count; i++)
             {
                 IUserDTO user = _userDAO.GetUserById(productsDTO[i].SellerId);
-                productsDTO[i].SellerMail = user.Mail;
                 if (user.IsBanned.Value)
                 {
                     productsDTO.Remove(productsDTO[i]);
@@ -137,11 +134,6 @@ namespace Back_Market_Vinci.Uc
         public List<IProductDTO> GetProductsNotValidated()
         {
             List<IProductDTO> productsNotValidatedDb = _productDAO.GetProductsNotValidated();
-            foreach (IProductDTO product in productsNotValidatedDb)
-            {
-                IUserDTO user = _userDAO.GetUserById(product.SellerId);
-                product.SellerMail = user.Mail;
-            }
             return productsNotValidatedDb;
         }
 
@@ -163,14 +155,13 @@ namespace Back_Market_Vinci.Uc
                 throw new MissingMandatoryInformationException("Un produit en vente doit avoir un prix supérieur à 0");
 
             IProductDTO productUpdated = _productDAO.UpdateProductById(id, productToBeUpdated);
-            IUserDTO user = _userDAO.GetUserById(productUpdated.SellerId);
-            productUpdated.SellerMail = user.Mail;
             return productUpdated;
         }
 
         public IProductDTO UpdateValidationOfProductById(string id, IProductDTO productIn)
         {
             IProductDTO productDb = _productDAO.GetProductById(id);
+            productIn.SellerMail = null;
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
             if (productIn.IsValidated.Value) {
                 productToBeUpdated.ReasonNotValidated = null;
@@ -180,8 +171,6 @@ namespace Back_Market_Vinci.Uc
                 productToBeUpdated.State = States.Refuse;
             }
             IProductDTO productUpdated = _productDAO.UpdateValidationOfProductById(id, productToBeUpdated);
-            IUserDTO user = _userDAO.GetUserById(productUpdated.SellerId);
-            productUpdated.SellerMail = user.Mail;
             return productUpdated;
         }
 
@@ -219,14 +208,14 @@ namespace Back_Market_Vinci.Uc
             else if (numberBought == 3)
             {
                 clientDB.Badges.ElementAt(5).IsUnlocked = true;
-                var rat = 0;
+                var count = 0;
                 foreach (string idP in clientDB.Bought) {
                     IProductDTO p = _productDAO.GetProductById(idP);
                     if (p.SentType == SentTypes.ADonner) {
-                        rat++;
+                        count++;
                     }
                 }
-                if (rat == 3) {
+                if (count == 3) {
                     clientDB.Badges.ElementAt(7).IsUnlocked = true;
                 }
             }
@@ -246,6 +235,5 @@ namespace Back_Market_Vinci.Uc
             
             return productDB;
         }
-
     }
 }

@@ -38,5 +38,6 @@ namespace Back_Market_Vinci.Uc
 
         List<IProductDTO> GetFavProduct(string id);
         List<string> GetAllMails();
+        List<IProductDTO> GetAllProductsPendingOfSeller(string idSeller);
     }
 }

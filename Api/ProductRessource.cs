@@ -71,7 +71,6 @@ namespace Back_Market_Vinci.Api
 
         [HttpPatch]
         [Route("/products/sell/{idProduct}/{idClient}")]
-
         public IProductDTO SellProduct(string idProduct, string idClient) {
             return _productUCC.SellProduct(idProduct, idClient);
         }
