@@ -160,7 +160,7 @@ namespace Back_Market_Vinci.Uc
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
             if (productDb.State == States.Envoye)
             {
-                throw new UnauthorizedException("Vous ne pouvez pas supprimer un produit vendu");
+                throw new UnauthorizedException("Vous ne pouvez pas modifier un produit vendu");
             }
             if (productToBeUpdated.SentType != SentTypes.AVendre
                 && (productToBeUpdated.Price != null && productToBeUpdated.Price != 0))
