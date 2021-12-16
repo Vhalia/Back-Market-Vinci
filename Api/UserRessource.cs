@@ -106,13 +106,13 @@ namespace Back_Market_Vinci.Api
         }
 
         [HttpGet]
-        [Route("users/soldProduct/{id}")]
+        [Route("/users/soldProduct/{id}")]
         public List<IProductDTO> GetSoldProduct(string id) {
             return _userUCC.GetSoldProduct(id);
         }
 
         [HttpGet]
-        [Route("users/favProduct/{id}")]
+        [Route("/users/favProduct/{id}")]
         public List<IProductDTO> GetFavProduct(string id) { 
             return _userUCC.GetFavProduct(id);
         }
