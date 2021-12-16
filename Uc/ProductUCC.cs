@@ -158,7 +158,10 @@ namespace Back_Market_Vinci.Uc
             productIn.IsValidated = null;
             IProductDTO productDb = _productDAO.GetProductById(id);
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
-
+            if (productDb.State == States.Envoye)
+            {
+                throw new UnauthorizedException("Vous ne pouvez pas supprimer un produit vendu");
+            }
             if (productToBeUpdated.SentType != SentTypes.AVendre
                 && (productToBeUpdated.Price != null && productToBeUpdated.Price != 0))
                 throw new ArgumentException("Un produit à donner ou à échanger ne peut pas avoir de prix");
