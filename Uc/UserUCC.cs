@@ -88,7 +88,7 @@ namespace Back_Market_Vinci.Uc
             
             IUserDTO userFromDB = _userDAO.GetUserByMail(user.Mail);
             if (userFromDB.IsBanned.Value)
-                throw new UnauthorizedException("Vous êtes bannis ");
+                throw new UnauthorizedException("Vous êtes banni");
 
             if (BCrypt.Net.BCrypt.Verify(user.Password, userFromDB.Password))
             {
