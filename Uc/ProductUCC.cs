@@ -149,7 +149,7 @@ namespace Back_Market_Vinci.Uc
             IProductDTO productToBeUpdated = CheckNullFields<IProductDTO>.CheckNull(productIn, productDb);
 
             if (productToBeUpdated.SentType != SentTypes.AVendre
-                && (productToBeUpdated.Price != null && productToBeUpdated.Price != 0))
+                && productToBeUpdated.Price != null)
                 throw new ArgumentException("Un produit à donner ou à échanger ne peut pas avoir de prix");
             if (productToBeUpdated.SentType == SentTypes.AVendre && (productToBeUpdated.Price == null || productToBeUpdated.Price == 0))
                 throw new MissingMandatoryInformationException("Un produit en vente doit avoir un prix supérieur à 0");
