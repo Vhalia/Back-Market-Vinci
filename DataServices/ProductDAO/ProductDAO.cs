@@ -45,7 +45,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             }
             catch(InvalidOperationException)
             {
-                throw new ProductNotFoundException("Plusieurs produits ont été trouvés avec le même id ou le produit n'a pas été trouvé");
+                throw new ProductNotFoundException("Le produit n'a pas été trouvé");
             }
             
             return productFound;
@@ -66,7 +66,7 @@ namespace Back_Market_Vinci.DataServices.ProductDAO
             }
             catch (InvalidOperationException)
             {
-                throw new ProductNotFoundException("Plusieurs utilisateurs ont été trouvés avec le même id ou l'utilisateur n'a pas été trouvé");
+                throw new ProductNotFoundException("L'utilisateur n'a pas été trouvé");
             }
 
             return productsFound;

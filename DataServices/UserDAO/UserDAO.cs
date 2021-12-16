@@ -53,7 +53,7 @@ namespace Back_Market_Vinci.DataServices
             }
             catch(InvalidOperationException)
             {
-                throw new UserNotFoundException("Plusieurs utilisateurs avec le même mail existe ou aucun utilisateur avec ce mail a été trouvé");
+                throw new UserNotFoundException("L'utilisateur avec cet mail n'a pas été trouvé");
             }
             return user;
 
