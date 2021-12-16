@@ -85,7 +85,10 @@ namespace Back_Market_Vinci.Uc
         public IUserDTO Login(IUserDTO user) {
             if (user.Mail == null || user.Password == null)
                 throw new MissingMandatoryInformationException("Le mail ou le mot de passe est manquant");
+            
             IUserDTO userFromDB = _userDAO.GetUserByMail(user.Mail);
+            if (userFromDB.IsBanned.Value)
+                throw new UnauthorizedException("Vous êtes bannis ");
 
             if (BCrypt.Net.BCrypt.Verify(user.Password, userFromDB.Password))
             {
