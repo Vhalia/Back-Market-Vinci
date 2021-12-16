@@ -75,7 +75,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:5000/products
+POST https://vinci-treasures-api.azurewebsites.net/products
 Content-Type: application/json
 
 {
