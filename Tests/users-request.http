@@ -34,7 +34,7 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "mail" : "disconunu@vinci.be",
+    "mail" : "leroi@vinci.be",
     "password" : "dragon"
 
 }
