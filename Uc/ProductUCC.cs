@@ -77,6 +77,7 @@ namespace Back_Market_Vinci.Uc
             productToCreate.SellerMail = null;
             productToCreate.ReasonNotValidated = null;
             productToCreate.IsValidated = false;
+            productToCreate.State = States.EnAttente;
             if (productToCreate.BlobMedias.Count == 0) {
                 productToCreate.BlobMedias.Add(Configuration["AzureBlobProperties:DefaultProductImage"]);
             }
